@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://escaperoomdesigner.com/game_schema.schema.json",
+  "title": "Game Configuration Schema",
+  "description": "The format of a game configuration. Including puzzle interactions and setup.",
+  "type": "array",
+  "additionalProperties": false,
+  "additionalItems": false,
+  "items": {
+    "$ref": "#/definitions/game"
+  },
+  "definitions": {
+    "puzzle": {
+      "description": "The Puzzle object containing a definition and the game setup.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "definition",
+        "setup"
+      ],
+      "properties": {
+        "definition": {
+          "$ref": "#/definitions/puzzleDefinition"
+        },
+        "setup": {
+          "$ref": "#/definitions/puzzleSetup"
+        }
+      }
+    },
+    "puzzleId": {
+      "description": "The unique identifier for a puzzle (GUID).",
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$"
+    },
+    "solutionType": {
+      "description": "The type of solution for a puzzle.",
+      "type": "string",
+      "enum": [
+        "CODEWORD",
+        "NUMERIC",
+        "GPIO"
+      ]
+    },
+    "puzzleDefinition": {
+      "description": "The definition of a puzzle in the abstract. It should include the solution and any hints.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "puzzleId",
+        "solutionType",
+        "name"
+      ],
+      "properties": {
+        "puzzleId": {
+          "$ref": "#/definitions/puzzleId"
+        },
+        "solutionType": {
+          "$ref": "#/definitions/solutionType"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 127
+        }
+      }
+    },
+    "puzzleSetup": {
+      "description": "The setup for a puzzle within this game.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "prerequisites": {
+          "type": "array",
+          "description": "A list of puzzles required to be solved before this puzzle can be solved.",
+          "items": {
+            "$ref": "#/definitions/puzzleId"
+          }
+        },
+        "solutionSet": {
+          "description": "The solution set for this puzzle. This is the set of solutions that will be used to unlock the puzzle.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "game": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 127
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 1023
+        },
+        "gameURL": {
+          "type": "string",
+          "minLength": 5,
+          "format": "uri"
+        },
+        "author": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 127
+        },
+        "authorURL": {
+          "type": "string",
+          "minLength": 5,
+          "format": "uri"
+        },
+        "gameLicense": {
+          "type": "string",
+          "format": "uri",
+          "minLength": 5,
+          "examples": [
+            "https://creativecommons.org/licenses/by/4.0/",
+            "https://creativecommons.org/licenses/by-sa/4.0/"
+          ]
+        },
+        "puzzles": {
+          "type": "array",
+          "description": "A list of puzzles in this game.",
+          "items": {
+            "$ref": "#/definitions/puzzle"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "version",
+        "description",
+        "gameURL",
+        "author",
+        "authorURL",
+        "gameLicense",
+        "puzzles"
+      ]
+    }
+  }
+}
