@@ -45,8 +45,6 @@ class Game:
                 for prerequisite in puzzle.get_prerequisites():
                     puzzle_dependencies.add_edge(prerequisite, puzzle.get_puzzle_id())
 
-        print(puzzle_dependencies.edges)
-
         if not nx.is_directed_acyclic_graph(puzzle_dependencies):
             raise ValueError("Puzzle dependencies are not valid, there are circular dependencies")
 

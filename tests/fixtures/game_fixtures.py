@@ -5,7 +5,6 @@ from game.Puzzle import Puzzle
 from game.Game import Game
 from game.GameConfig import GameConfig
 
-
 m_game_config = Mock(spec=GameConfig)
 
 
@@ -46,3 +45,9 @@ def built_game():
         gm.add_puzzle(p)
 
     return gm
+
+
+@pytest.fixture
+def mock_puzzle():
+    return Mock(spec=Puzzle, _puzzle_id="puzzle_5", _prerequisites=['puzzle_4'], has_prerequisites=lambda: True,
+                get_prerequisites=lambda: ['puzzle_4'], get_puzzle_id=lambda: "puzzle_5")
