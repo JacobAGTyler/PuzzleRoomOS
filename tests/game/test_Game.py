@@ -2,24 +2,10 @@ import networkx as nx
 import pytest
 
 from unittest.mock import Mock
+from tests.fixtures.game_fixtures import mock_game_config, mock_puzzle_list
 
-from game.GameConfig import GameConfig
 from game.Game import Game
 from game.Puzzle import Puzzle
-
-
-@pytest.fixture
-def mock_game_config():
-    return Mock(spec=GameConfig)
-
-@pytest.fixture
-def mock_puzzle_list():
-    return [
-        Mock(spec=Puzzle, puzzle_id="puzzle_1", prerequisites=None),
-        Mock(spec=Puzzle, puzzle_id="puzzle_2", prerequisites=None),
-        Mock(spec=Puzzle, puzzle_id="puzzle_3", prerequisites=['puzzle_1', 'puzzle_2']),
-        Mock(spec=Puzzle, puzzle_id="puzzle_4", prerequisites=['puzzle_3']),
-    ]
 
 
 class TestGame:
@@ -51,8 +37,16 @@ class TestGame:
 
     def test_ppd_fail_circular(self, mock_game_config, mock_puzzle_list):
         game = Game("test_ref", mock_game_config)
-        mock_puzzle_list[0] = Mock(spec=Puzzle, puzzle_id="puzzle_1", prerequisites=['puzzle_4'])
+        mock_puzzle_list[0] = Mock(spec=Puzzle, _puzzle_id="puzzle_1", _prerequisites=['puzzle_4'],
+                                   has_prerequisites=lambda: True, get_prerequisites=lambda: ['puzzle_4'],
+                                   get_puzzle_id=lambda: "puzzle_1")
         game._puzzles = mock_puzzle_list
 
         with pytest.raises(ValueError, match="Puzzle dependencies are not valid, there are circular dependencies"):
             game.parse_puzzle_dependencies()
+
+    def test_evaluate_puzzles(self, mock_game_config, mock_puzzle_list):
+        game = Game("test_ref", mock_game_config)
+        game._puzzles = mock_puzzle_list
+
+        assert game.evaluate_puzzles() == set(mock_puzzle_list)

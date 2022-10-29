@@ -128,3 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .idea/
+
+# SCSS
+/server/static/scss/base.css
+/server/static/scss/base.css.map

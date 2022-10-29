@@ -1,22 +1,29 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_restful import Api, Resource
 
+from grapher import build_graph
 
-class Game(Resource):
+
+class GameResource(Resource):
     def get(self):
         return {'hello': 'world'}
 
 
 def create_app():
-    app = Flask('Puzzle Room OS')
-    api = Api(app)
-    api.add_resource(Game, "/game")
+    new_app = Flask('Puzzle Room OS')
+    api = Api(new_app)
+    api.add_resource(GameResource, "/game")
 
-    @app.route('/')
+    @new_app.route('/')
     def index():
-        return 'Test world'
+        return render_template('index.html', title='Puzzle Room OS', graph=build_graph())
 
-    return app
+    @new_app.route('/hello/')
+    @new_app.route('/hello/<name>')
+    def hello(name=None):
+        return render_template('hello.html', name=name)
+
+    return new_app
 
 
 if __name__ == "__main__":
