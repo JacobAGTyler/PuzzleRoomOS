@@ -1,10 +1,21 @@
 import pytest
 
 from fastjsonschema.exceptions import JsonSchemaValueException
-from game.GameConfig import GameConfig
+from game.GameConfig import GameConfig, import_game_config
 
 
 class TestGameConfig:
+    def test_init(self):
+        gc = GameConfig('test_reference', 'test_name', 'test_version')
+
+        assert gc.config_reference == 'test_reference'
+        assert gc.name == 'test_name'
+        assert gc.version == 'test_version'
+
+        assert isinstance(gc, GameConfig)
+
+
+class TestImportGameConfig:
     fixture_path = 'tests/fixtures/config/'
 
     @pytest.fixture
@@ -13,14 +24,14 @@ class TestGameConfig:
 
     def test_game_config_init(self, mock_config_reference, monkeypatch):
         monkeypatch.setattr('game.GameConfig.base_path', self.fixture_path)
-        game_config = GameConfig(mock_config_reference, 0)
-        assert isinstance(game_config, GameConfig)
+        game_config = import_game_config(mock_config_reference, 0)
+        assert isinstance(game_config.pop(), GameConfig)
 
     def test_game_config_init_fail_reference(self):
         with pytest.raises(FileNotFoundError, match="Config file not found:"):
-            _ = GameConfig("not-a-config", 0)
+            _ = import_game_config("not-a-config", 0)
 
     def test_game_config_init_fail_schema(self, monkeypatch):
         monkeypatch.setattr('game.GameConfig.base_path', self.fixture_path)
         with pytest.raises(JsonSchemaValueException):
-            _ = GameConfig("invalid-game-config", 0)
+            _ = import_game_config("invalid-game-config", 0)

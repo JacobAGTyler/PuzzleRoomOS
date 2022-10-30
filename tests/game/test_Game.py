@@ -2,7 +2,7 @@ import networkx as nx
 import pytest
 
 from unittest.mock import Mock
-from tests.fixtures.game_fixtures import mock_game_config, mock_puzzle_list, built_game, mock_puzzle
+from tests.fixtures import mock_game_config, mock_puzzle_list, built_game, mock_puzzle
 
 from game.Game import Game
 from game.Puzzle import Puzzle

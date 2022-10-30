@@ -1,11 +1,6 @@
-import pytest
-
 from game.Puzzle import Puzzle
 
-
-@pytest.fixture
-def puzzle():
-    return Puzzle("test_puzzle_1")
+from tests.fixtures import built_puzzle as puzzle
 
 
 class TestPuzzle:
@@ -56,7 +51,7 @@ class TestPuzzle:
         assert len(puzzle.get_prerequisites()) == 2
         assert "test_puzzle_2" in puzzle.get_prerequisites()
 
-    def test_has_prerequisites(self, puzzle) -> bool:
+    def test_has_prerequisites(self, puzzle):
         assert puzzle.has_prerequisites() is False
 
         puzzle.set_prerequisites({"test_puzzle_2", "test_puzzle_3"})

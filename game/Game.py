@@ -1,9 +1,25 @@
 import networkx as nx
 
+from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, DateTime, Boolean, Table, ForeignKey
+
 from typing import Optional
 from datetime import datetime
 from game.GameConfig import GameConfig
 from game.Puzzle import Puzzle
+
+from data import mapper_registry
+
+game_table = Table(
+    'game',
+    mapper_registry.metadata,
+
+    Column('game_id', Integer, primary_key=True),
+    Column('game_ref', String(255)),
+    Column('game_config_id', Integer, ForeignKey('game_config.game_config_id')),
+    Column('started', Boolean),
+    Column('start_time', DateTime, nullable=True),
+)
 
 
 class Game:
@@ -15,10 +31,13 @@ class Game:
             raise ValueError("Game config cannot be empty & must be of type GameConfig")
 
         self._game_reference: str = game_reference
+        self._game_config: GameConfig = game_config
 
         self._puzzles: set[Puzzle] = set()
         self._started = False
         self._start_time: Optional[datetime] = None
+
+        super().__init__()
 
     def get_puzzle(self, puzzle_id: str) -> Optional[Puzzle]:
         for puzzle in self._puzzles:
@@ -60,3 +79,8 @@ class Game:
             end_puzzles.add(puzzle)
 
         return end_puzzles
+
+
+mapper_registry.map_imperatively(Game, game_table, properties={
+    'game_config': relationship(GameConfig, back_populates='games')
+})

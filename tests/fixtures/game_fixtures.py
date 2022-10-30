@@ -28,6 +28,11 @@ def mock_game_config():
 
 
 @pytest.fixture
+def built_game_config() -> GameConfig:
+    return GameConfig('test_reference', 'test_name', 'test_version')
+
+
+@pytest.fixture
 def mock_puzzle_list():
     return p_list()
 
@@ -38,7 +43,7 @@ def mock_game():
 
 
 @pytest.fixture
-def built_game():
+def built_game() -> Game:
     gm = Game("game_reference", m_game_config)
 
     for p in p_list():
