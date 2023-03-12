@@ -132,3 +132,6 @@ dmypy.json
 # SCSS
 /server/static/scss/base.css
 /server/static/scss/base.css.map
+
+bootstrap/*.css
+bootstrap/*.css.map
