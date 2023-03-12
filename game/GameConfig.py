@@ -13,6 +13,21 @@ from data import mapper_registry
 base_path = 'config/'
 
 
+game_config_table = Table(
+    'game_config',
+    mapper_registry.metadata,
+
+    Column('game_config_id', Integer, primary_key=True),
+    Column('name', String(255)),
+    Column('version', String(255)),
+    Column('description', String(255)),
+    Column('author', String(255)),
+    Column('author_url', String(255)),
+    Column('game_license', String(255)),
+    Column('game_url', String(255)),
+)
+
+
 class GameConfig:
     def __init__(
             self,
@@ -83,20 +98,7 @@ def import_game_config(config_reference: str, instance: int = None) -> set[GameC
     return imported_configs
 
 
-game_config_table = Table(
-    'game_config',
-    mapper_registry.metadata,
-
-    Column('game_config_id', Integer, primary_key=True),
-    Column('name', String(255)),
-    Column('version', String(255)),
-    Column('description', String(255)),
-    Column('author', String(255)),
-    Column('author_url', String(255)),
-    Column('game_license', String(255)),
-    Column('game_url', String(255)),
-)
-
 mapper_registry.map_imperatively(GameConfig, game_config_table, properties={
-    'games': relationship('Game', back_populates="game_config")
+    'games': relationship('Game', back_populates="game_config"),
+    'puzzle_configs': relationship('PuzzleConfig', back_populates="game_config"),
 })

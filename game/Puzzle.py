@@ -1,4 +1,9 @@
+from datetime import datetime
 from typing import Optional
+from sqlalchemy import Column, Integer, String, Table, ForeignKey, DateTime, Boolean
+from sqlalchemy.orm import relationship
+
+from data import mapper_registry
 
 
 class Puzzle:
@@ -24,3 +29,21 @@ class Puzzle:
 
     def has_prerequisites(self) -> bool:
         return self._prerequisites is not None and len(self._prerequisites) > 0
+
+
+puzzle_table = Table(
+    'puzzle',
+    mapper_registry.metadata,
+
+    Column('puzzle_id', Integer, primary_key=True),
+    Column('game_id', Integer, ForeignKey('game.game_id')),
+    Column('puzzle_config_id', Integer, ForeignKey('puzzle_config.puzzle_config_id')),
+    Column('puzzle_reference', String(255)),
+    Column('solved', Boolean, default=False),
+    Column('solve_time', DateTime, nullable=True),
+)
+
+mapper_registry.map_imperatively(Puzzle, puzzle_table, properties={
+    'game': relationship('Game', back_populates="puzzles"),
+    'puzzle_config': relationship('PuzzleConfig', back_populates="puzzles")
+})

@@ -18,7 +18,9 @@ game_table = Table(
     Column('game_ref', String(255)),
     Column('game_config_id', Integer, ForeignKey('game_config.game_config_id')),
     Column('started', Boolean),
+    Column('ended', Boolean),
     Column('start_time', DateTime, nullable=True),
+    Column('end_time', DateTime, nullable=True),
 )
 
 
@@ -35,7 +37,9 @@ class Game:
 
         self._puzzles: set[Puzzle] = set()
         self._started = False
+        self._ended = False
         self._start_time: Optional[datetime] = None
+        self._end_time: Optional[datetime] = None
 
         super().__init__()
 
@@ -82,5 +86,7 @@ class Game:
 
 
 mapper_registry.map_imperatively(Game, game_table, properties={
-    'game_config': relationship(GameConfig, back_populates='games')
+    'puzzles': relationship('Puzzle', back_populates="game"),
+    'game_config': relationship(GameConfig, back_populates='games'),
+    'events': relationship('Event', back_populates='game'),
 })

@@ -1,3 +1,1 @@
-from sqlalchemy.orm import registry
-
-mapper_registry = registry()
+from data.registry import mapper_registry

@@ -1,6 +1,6 @@
-# PuzzleRoomOS
+# Puzzle Classes
 
-An application to run a puzzle / escape room with distributed nodes.
+The game & puzzle classes at the core of the game.
 
 **Game**: The play through of the room. Initiated at a specific time, played to a GameConfig.
 
@@ -57,6 +57,10 @@ Game <-- Puzzle
 
 class Game {
     game_id: Integer
+    game_ref: String
+    game_config_id: Integer
+    started: Boolean
+    ended: Boolean
     start_time: DateTime
     end_time: DateTime
     start_game()

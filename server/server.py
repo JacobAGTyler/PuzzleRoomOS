@@ -17,7 +17,7 @@ def create_app():
 
     @new_app.route('/')
     def index():
-        return render_template('index.html', title='Puzzle Room OS', graph=build_graph())
+        return render_template('index.html', title='Puzzle Room OS')
 
     @new_app.route('/games')
     def games():
