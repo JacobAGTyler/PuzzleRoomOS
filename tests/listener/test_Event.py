@@ -1,3 +1,5 @@
+import uuid
+
 import pytest
 
 from listener.Event import Event, EventType
@@ -11,7 +13,25 @@ class TestEvent:
 
         assert isinstance(evt, Event)
         assert evt._event_id is not None
+        assert isinstance(evt._event_id, uuid.UUID)
+        assert evt._game == mock_game
+        assert evt._event_time is not None
+        assert evt._event_type == EventType.GAME_START
+        assert evt._event_data == {}
 
-    def test_event_init_fail(self):
+    @pytest.mark.usefixtures('mock_game')
+    def test_event_init_fail(self, mock_game):
         with pytest.raises(ValueError):
             Event(None, None)
+
+        with pytest.raises(ValueError) as evt_type_err:
+            Event(mock_game, None)
+
+            assert str(evt_type_err.value.args[0]) == "Event type cannot be empty & must be of type EventType"
+
+        with pytest.raises(ValueError) as evt_type_err:
+            Event(None, EventType.GAME_START)
+
+            assert str(evt_type_err.value.args[0]) == "Game cannot be empty & must be of type Game"
+
+

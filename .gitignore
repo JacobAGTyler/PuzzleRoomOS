@@ -138,3 +138,11 @@ bootstrap/**.css.map
 
 /bootstrap/scss/bootstrap.css
 /bootstrap/scss/bootstrap.css.map
+
+config/setup.yaml
+
+config/game/*.yaml
+congig/listener/*.yaml
+
+listener/device-setup/device-config.yml
+listener/device-setup/inventory/inventory.yml

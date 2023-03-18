@@ -1,0 +1,40 @@
+---
+- name: Install PHP Dependencies
+  hosts: main-server
+  become: true
+
+  vars_files:
+    - "device-config.yml"
+
+  tasks:
+    - name: Install DHCP Server
+      apt:
+        name: isc-dhcp-server
+        state: latest
+        update_cache: true
+      notify:
+        - Restart DHCP
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu kinetic stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+
+  handlers:
+    - name: Restart DHCP
+      service: name=isc-dhcp-server state=restarted

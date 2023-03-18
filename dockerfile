@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM python:3.10-alpine as build
+FROM python:3.11-alpine as build
 
 RUN apk add --no-cache apache2 apache2-dev apache2-mod-wsgi python3-dev build-base linux-headers pcre-dev
 

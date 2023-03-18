@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Setup Schema",
+    "description": "Schema for the setup.json file",
+    "type": "object",
+  "required": [
+    "kafka"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "kafka": {
+      "type": "object",
+      "required": [
+        "bootstrap_servers"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "bootstrap_servers": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

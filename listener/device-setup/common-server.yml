@@ -1,0 +1,32 @@
+---
+- name: Install Common Services
+  hosts: devices
+  become: true
+
+  vars_files:
+    - "device-config.yml"
+
+  tasks:
+    - name: Install common APT
+      apt:
+        name: software-properties-common
+        state: latest
+        update_cache: true
+
+    - name: Install Python 3.11
+      apt:
+        name: python3.11
+        state: latest
+        update_cache: true
+
+    - name: Clone Repository
+      git:
+        repo: "{{ vars.device_repo }}"
+        dest: "{{ vars.device_directory }}"
+
+    - name: Install Dependencies
+      pip:
+          chdir: "{{ vars.device_directory }}"
+          requirements: requirements.txt
+          virtualenv: venv
+          state: present

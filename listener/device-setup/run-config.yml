@@ -1,0 +1,7 @@
+---
+- name: Run Various Config Setups.
+  hosts: all
+
+- import_playbook: common-server.yml
+- import_playbook: main-server.yml
+- import_playbook: screen-server.yml

@@ -84,6 +84,24 @@ class Game:
 
         return end_puzzles
 
+    def get_reference(self) -> str:
+        return self._game_reference
+
+    def to_dict(self) -> dict:
+        return {
+            'game_reference': self._game_reference,
+            'game_config': {
+                'config_reference': self._game_config.get_reference(),
+                'name': self._game_config.get_name(),
+                'version': self._game_config.get_version()
+            },
+            'puzzles': [puzzle.to_dict() for puzzle in self._puzzles],
+            'started': self._started,
+            'ended': self._ended,
+            'start_time': self._start_time.isoformat() if self._start_time else None,
+            'end_time': self._end_time.isoformat() if self._start_time else None,
+        }
+
 
 mapper_registry.map_imperatively(Game, game_table, properties={
     'puzzles': relationship('Puzzle', back_populates="game"),

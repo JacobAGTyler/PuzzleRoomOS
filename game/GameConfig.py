@@ -1,16 +1,10 @@
-import os.path
-import yaml
-import json
-import fastjsonschema
-
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, Table
 from typing import Optional
 
 from game.PuzzleConfig import PuzzleConfig
 from data import mapper_registry
-
-base_path = 'config/'
+from utilities.config import ConfigType, import_config
 
 
 game_config_table = Table(
@@ -41,10 +35,10 @@ class GameConfig:
             game_url: Optional[str] = None,
             puzzles: Optional[list[dict]] = None
     ):
-        self.config_reference = config_reference
+        self._config_reference = config_reference
 
-        self.name = name
-        self.version = version
+        self._name = name
+        self._version = version
         self.description = description
         self.author = author
         self.author_url = author_url
@@ -59,20 +53,18 @@ class GameConfig:
 
         super().__init__()
 
+    def get_reference(self) -> str:
+        return self._config_reference
+
+    def get_name(self) -> str:
+        return self._name
+
+    def get_version(self) -> str:
+        return self._version
+
 
 def import_game_config(config_reference: str, instance: int = None) -> set[GameConfig]:
-    config_path = f'{base_path}{config_reference}.yaml'
-
-    if not os.path.exists(config_path):
-        raise FileNotFoundError(f'Config file not found: {config_path}')
-
-    with open(config_path, 'r') as f:
-        config_set = yaml.safe_load(f)
-
-    with open('game/game-config-schema.json', 'r') as schema_file:
-        validate_schema = fastjsonschema.compile(json.load(schema_file))
-
-    validate_schema(config_set)
+    config_set = import_config(config_reference=config_reference, config_type=ConfigType.GAME)
 
     def map_config(config: dict) -> GameConfig:
         return GameConfig(

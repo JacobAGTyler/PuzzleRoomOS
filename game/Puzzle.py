@@ -30,6 +30,11 @@ class Puzzle:
     def has_prerequisites(self) -> bool:
         return self._prerequisites is not None and len(self._prerequisites) > 0
 
+    def to_dict(self) -> dict:
+        return {
+            'puzzle_id': self._puzzle_id,
+        }
+
 
 puzzle_table = Table(
     'puzzle',

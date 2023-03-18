@@ -1,0 +1,11 @@
+---
+- name: Setup Screen Server Pi
+  hosts: screen-server
+  become: true
+
+#  vars_files:
+#    - "device-config.yml"
+
+  tasks:
+    - name: Ping Screen Server
+      ping:

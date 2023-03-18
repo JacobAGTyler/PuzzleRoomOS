@@ -10,5 +10,3 @@ class Solve(Event):
 
         self._game_puzzle = game_puzzle
         self._game_puzzle.solved = True
-
-        self._solve_time = datetime.datetime.now()
