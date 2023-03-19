@@ -1,5 +1,7 @@
 import gpiozero as g
-import pigpio as p
+# import pigpio as p
+
+from gpiozero.pins.lgpio import LGPIOFactory
 
 
 class Interface:
@@ -9,7 +11,7 @@ class Interface:
         self.actions = []
 
 
-device1 = p.pi(host='192.168.0.164')
+factory = LGPIOFactory()
 
 for i in range(28):
-    device1.write(i, 1)
+    g.OutputDevice(i, active_high=True, initial_value=False, pin_factory=factory)
