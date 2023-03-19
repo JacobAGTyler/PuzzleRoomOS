@@ -1,7 +1,6 @@
 import gpiozero as g
 
-# from gpiozero.pins.native import NativeFactory
-from gpiozero.pins.pi import PiFactory
+from gpiozero.pins.lgpio import LGPIOFactory
 
 
 class Interface:
@@ -11,9 +10,8 @@ class Interface:
         self.actions = []
 
 
-# factory = NativeFactory()
-# factory = PiFactory()
+factory = LGPIOFactory(chip=0)
 
 for i in range(26):
-    dev = g.OutputDevice(i, initial_value=True)
+    dev = g.OutputDevice(i, initial_value=True, pin_factory=factory)
     dev.on()
