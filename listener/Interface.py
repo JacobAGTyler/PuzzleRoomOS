@@ -12,8 +12,8 @@ class Interface:
 
 
 # factory = NativeFactory()
-factory = PiFactory()
+# factory = PiFactory()
 
 for i in range(26):
-    dev = g.OutputDevice(i, initial_value=True, pin_factory=factory)
+    dev = g.OutputDevice(i, initial_value=True)
     dev.on()
