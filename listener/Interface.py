@@ -1,6 +1,7 @@
 import gpiozero as g
 
-from gpiozero.pins.native import NativeFactory
+# from gpiozero.pins.native import NativeFactory
+from gpiozero.pins.rpigpio import RPiGPIOFactory
 
 
 class Interface:
@@ -10,7 +11,8 @@ class Interface:
         self.actions = []
 
 
-factory = NativeFactory()
+# factory = NativeFactory()
+factory = RPiGPIOFactory()
 
 for i in range(26):
     dev = g.OutputDevice(i, initial_value=True, pin_factory=factory)
