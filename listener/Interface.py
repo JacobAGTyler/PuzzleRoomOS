@@ -1,4 +1,5 @@
 import gpiozero as g
+import pigpio as p
 
 
 class Interface:
@@ -8,7 +9,7 @@ class Interface:
         self.actions = []
 
 
-for i in range(28):
-    dev = g.OutputDevice(i, active_high=True, initial_value=False)
-    dev.on()
+device1 = p.pi(host='192.168.0.164')
 
+for i in range(28):
+    device1.write(i, 1)
