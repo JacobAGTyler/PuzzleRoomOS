@@ -12,7 +12,7 @@ class Interface:
 
 
 # factory = NativeFactory()
-factory = LocalPiFactory()
+factory = LocalPiFactory().pin_class(g.OutputDevice)
 
 for i in range(26):
     dev = g.OutputDevice(i, initial_value=True, pin_factory=factory)
