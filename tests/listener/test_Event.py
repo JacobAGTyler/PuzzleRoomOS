@@ -9,7 +9,7 @@ from tests.fixtures.game_fixtures import mock_game
 class TestEvent:
     @pytest.mark.usefixtures('mock_game')
     def test_event_init(self, mock_game):
-        evt = Event(mock_game, EventType.GAME_START)
+        evt = Event(EventType.GAME_START, mock_game)
 
         assert isinstance(evt, Event)
         assert evt._event_id is not None

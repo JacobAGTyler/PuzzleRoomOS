@@ -49,8 +49,8 @@ def instantiate_device(device_code):
 
     device = Device(device_config=device_config)
 
-    for interface_config in device_config['interfaces']:
-        interface = instantiate_interface(interface_config)
-        device.add_interface(interface)
+    # for interface_config in device_config['interfaces']:
+    #     interface = instantiate_interface(interface_config)
+    #     device.add_interface(interface)
 
     return device

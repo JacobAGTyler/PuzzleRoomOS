@@ -7,12 +7,19 @@ from game.GameConfig import GameConfig, import_game_config
 class TestGameConfig:
     def test_init(self):
         gc = GameConfig('test_reference', 'test_name', 'test_version')
-
-        assert gc.config_reference == 'test_reference'
-        assert gc.name == 'test_name'
-        assert gc.version == 'test_version'
-
         assert isinstance(gc, GameConfig)
+
+    def test_get_reference(self):
+        gc = GameConfig('test_reference', 'test_name', 'test_version')
+        assert gc.get_reference() == 'test_reference'
+
+    def test_get_name(self):
+        gc = GameConfig('test_reference', 'test_name', 'test_version')
+        assert gc.get_name() == 'test_name'
+
+    def test_get_version(self):
+        gc = GameConfig('test_reference', 'test_name', 'test_version')
+        assert gc.get_version() == 'test_version'
 
 
 class TestImportGameConfig:
