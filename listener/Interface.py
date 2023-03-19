@@ -12,6 +12,7 @@ class Interface:
 
 # factory = NativeFactory()
 
-for i in range(26):
-    dev = g.OutputDevice(i, initial_value=True)
+for i in [18, 23, 24, 25, 12, 16, 20, 21]:
+    gpio_pin = f'GPIO{i}'
+    dev = g.OutputDevice(gpio_pin, initial_value=True)
     dev.on()
