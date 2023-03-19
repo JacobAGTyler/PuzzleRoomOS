@@ -1,7 +1,13 @@
 version: "3.8"
 
+networks:
+  default:
+    driver: bridge
+
 services:
   listener:
+    hostname: puzzle-listener
+    container_name: puzzle-listener
     build:
       context: .
       dockerfile: dockerfile
@@ -15,6 +21,8 @@ services:
     volumes:
       - ./:/listener
   webserver:
+    hostname: puzzle-webserver
+    container_name: puzzle-webserver
     build:
       context: .
       dockerfile: dockerfile
@@ -26,6 +34,8 @@ services:
     volumes:
       - $PWD/www:/var/www/html
   server:
+    hostname: puzzle-server
+    container_name: puzzle-server
     build:
       context: .
       dockerfile: dockerfile
@@ -52,6 +62,8 @@ services:
       - broker
   redis:
     image: redis:alpine
+    hostname: redis
+    container_name: redis
     ports:
       - 6379:6379
     volumes:

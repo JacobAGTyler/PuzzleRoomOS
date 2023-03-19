@@ -9,7 +9,10 @@
   tasks:
     - name: Install DHCP Server
       apt:
-        name: isc-dhcp-server
+        name:
+          - isc-dhcp-server
+          - dnsutils
+          - bind9
         state: latest
         update_cache: true
       notify:
@@ -33,7 +36,27 @@
 
     - name: Install Docker Module for Python
       pip:
-        name: docker
+        name:
+          - docker
+          - docker-compose
+
+    - name: Configure the Linux kernel to allow IP forwarding
+      sysctl:
+        name: net.ipv4.conf.all.forwarding
+        value: 1
+        sysctl_set: true
+        state: present
+
+    - name: Change the policy for the iptables FORWARD policy from DROP to ACCEPT
+      iptables:
+        chain: FORWARD
+        policy: ACCEPT
+        state: present
+
+    - name: Start Docker Compose Services
+      community.docker.docker_compose:
+          project_src: "{{ vars.device_directory }}"
+          state: present
 
   handlers:
     - name: Restart DHCP

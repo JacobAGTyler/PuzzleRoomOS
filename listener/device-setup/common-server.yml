@@ -13,20 +13,42 @@
         state: latest
         update_cache: true
 
+    - name: Install Git
+      apt:
+        name: git
+        state: latest
+        update_cache: true
+
     - name: Install Python 3.11
       apt:
-        name: python3.11
+        name:
+          - python3.11
+          - python3-pip
+          - python3-rpi-lgpio
         state: latest
         update_cache: true
 
     - name: Clone Repository
       git:
-        repo: "{{ vars.device_repo }}"
+        repo: "{{ vars.repository }}"
         dest: "{{ vars.device_directory }}"
+        force: true
+        update: true
+        clone: true
+      become: false
+
+    - name: Install Python Virtual Environment
+      pip:
+        name: virtualenv
+        state: present
+        virtualenv_python: python3.11
+      become: false
 
     - name: Install Dependencies
       pip:
           chdir: "{{ vars.device_directory }}"
           requirements: requirements.txt
           virtualenv: venv
+          virtualenv_python: python3.11
           state: present
+      become: false
