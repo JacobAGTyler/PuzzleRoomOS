@@ -1,7 +1,10 @@
 import gpiozero as g
 # import pigpio as p
+import lgpio as lg
 
-from gpiozero.pins.lgpio import LGPIOFactory
+from gpiozero.pins.pigpio import PiGPIOFactory
+
+lg.BOTH_EDGE = True
 
 
 class Interface:
@@ -11,7 +14,8 @@ class Interface:
         self.actions = []
 
 
-factory = LGPIOFactory()
+factory = PiGPIOFactory(host='localhost')
 
-for i in range(28):
-    g.OutputDevice(i, active_high=True, initial_value=False, pin_factory=factory)
+for i in range(26):
+    dev = g.OutputDevice(i, initial_value=True, pin_factory=factory)
+    dev.on()
