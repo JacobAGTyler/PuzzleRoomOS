@@ -24,8 +24,6 @@
         name:
           - python3.11
           - python3-pip
-          - python3-rpi-lgpio
-          - python3-gpiozero
         state: latest
         update_cache: true
 
@@ -44,6 +42,42 @@
         state: present
         virtualenv_python: python3.11
       become: false
+
+    - name: Install GPIO Libraries
+      apt:
+        name:
+          - python3-rpi.gpio
+          - python3-rpi-lgpio
+          - python3-gpiozero
+        state: latest
+        update_cache: true
+
+    - name: Download PiGPIO
+      get_url:
+        url: https://github.com/joan2937/pigpio/archive/master.zip
+        dest: /tmp/pigpio.zip
+
+    - name: Unzip PiGPIO
+      unarchive:
+          src: /tmp/pigpio.zip
+          dest: /tmp
+          remote_src: true
+
+    - name: Make PiGPIO
+      make:
+        chdir: /tmp/pigpio-master
+        target: install
+
+    - name: Install PiGPIO
+      command:
+        cmd: make install
+        chdir: /tmp/pigpio-master
+
+#    - name: Enable PiGPIO Daemon
+#      service:
+#        name: pigpiod
+#        enabled: true
+#        state: started
 
     - name: Install Dependencies
       pip:
