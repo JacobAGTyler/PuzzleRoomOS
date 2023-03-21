@@ -9,16 +9,11 @@ wait = 1
 
 good = False
 
+device: Device = instantiate_device()
+device.initialise()
+
 while do_loop:
     try:
-        device_code_input = input('Enter Device Code:')
-
-        if device_code_input == 'exit':
-            do_loop = False
-            continue
-
-        device = instantiate_device(device_code=device_code_input)
-
         device.listen()
     except NoBrokersAvailable as e:
         timeout += wait

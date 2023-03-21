@@ -1,18 +1,37 @@
 import gpiozero as g
 
-# from gpiozero.pins.native import NativeFactory
+from listener.Event import Event, EventType
+
+
+def make_pin(pin_number: int, activate_high: bool) -> g.OutputDevice:
+    gpio_string = f'GPIO{pin_number}'
+    pin = g.OutputDevice(gpio_string, active_high=activate_high, initial_value=False)
+    return pin
 
 
 class Interface:
-    def __init__(self, trigger_references: list[str]):
-        self.interface_code = None
+    def __init__(self, trigger_references: list[str], config: dict):
+        self.name = config['name']
         self._trigger_references = trigger_references
-        self.actions = []
+        # self._actions = actions
 
+        pin = int(config['pin_number'])
+        activate_high = bool(config['relay_on_activate'])
 
-# factory = NativeFactory()
+        self._relay_number = int(config['relay'])
+        self._device = make_pin(pin_number=pin, activate_high=activate_high)
 
-for i in [18, 23, 24, 25, 12, 16, 20, 21]:
-    gpio_pin = f'GPIO{i}'
-    dev = g.OutputDevice(gpio_pin, initial_value=True)
-    dev.on()
+    def get_relay_number(self) -> int:
+        return self._relay_number
+
+    def get_trigger_references(self) -> list[str]:
+        return self._trigger_references
+
+    def is_trigger(self, trigger_reference: str) -> bool:
+        return trigger_reference in self._trigger_references
+
+    def activate(self):
+        self._device.on()
+
+    def deactivate(self):
+        self._device.off()

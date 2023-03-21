@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Device Config Schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "interfaces",
+    "topic"
+  ],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "topic": {
+      "type": "string"
+    },
+    "interfaces": {
+      "type": "array",
+      "additionalItems": false,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "relay",
+          "pin_number",
+          "relay_on_activate"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "relay": {
+            "type": "integer"
+          },
+          "pin_number": {
+            "type": "integer"
+          },
+          "relay_on_activate": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}

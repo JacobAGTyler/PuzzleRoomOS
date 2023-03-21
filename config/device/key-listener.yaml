@@ -1,0 +1,36 @@
+---
+name: Key Listener
+topic: events
+interfaces:
+  - name: Key 1
+    relay: 1
+    pin_number: 18
+    relay_on_activate: false
+  - name: Key 2
+    relay: 2
+    pin_number: 24
+    relay_on_activate: false
+  - name: Key 3
+    relay: 3
+    pin_number: 23
+    relay_on_activate: false
+  - name: Key 4
+    relay: 4
+    pin_number: 25
+    relay_on_activate: false
+  - name: Key 5
+    relay: 5
+    pin_number: 21
+    relay_on_activate: false
+  - name: Key 6
+    relay: 6
+    pin_number: 20
+    relay_on_activate: false
+  - name: Pipe Lock
+    relay: 7
+    pin_number: 16
+    relay_on_activate: true
+  - name: Lid Locks
+    relay: 8
+    pin_number: 12
+    relay_on_activate: true

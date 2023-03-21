@@ -3,3 +3,4 @@ network_name: "PuzzleOS"
 app_directory: ??
 device_directory: /home/jacob/puzzle-os
 repository: https://github.com/JacobAGTyler/PuzzleRoomOS.git
+network_password: ??

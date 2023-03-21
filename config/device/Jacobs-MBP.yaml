@@ -1,0 +1,7 @@
+name: Key Listener
+topic: events
+interfaces:
+  - name: Key 1
+    relay: 1
+    pin_number: 18
+    relay_on_activate: false

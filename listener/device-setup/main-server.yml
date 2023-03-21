@@ -4,7 +4,7 @@
   become: true
 
   vars_files:
-    - "device-config.yml"
+    - "config/device-config.yml"
 
   tasks:
     - name: Install DHCP Server
@@ -12,10 +12,83 @@
         name:
           - isc-dhcp-server
           - dnsutils
+          - hostapd
           - bind9
         state: latest
         update_cache: true
       notify:
+        - Restart DHCP
+
+    - name: Configure DHCP Server
+      template:
+        src: templates/dhcpd.conf.j2
+        dest: /etc/dhcp/dhcpd.conf
+        owner: root
+        group: root
+        mode: 0644
+      notify:
+        - Restart DHCP
+
+    - name: Configure DHCP Port Listening
+      template:
+        src: templates/isc-dhcp-server.j2
+        dest: /etc/default/isc-dhcp-server
+        owner: root
+        group: root
+        mode: 0644
+      notify:
+        - Restart DHCP
+
+    - name: Configure DHCP Port Listening
+      template:
+        src: templates/interfaces.j2
+        dest: /etc/network/interfaces
+        owner: root
+        group: root
+        mode: 0644
+      notify:
+        - Restart DHCP
+
+    - name: Configure Wifi Access Config File
+      template:
+        src: templates/hostapd.conf.j2
+        dest: /etc/hostapd/hostapd.conf
+        owner: root
+        group: root
+        mode: 0644
+      notify:
+        - Restart HostAPD
+
+    - name: Configure Wifi Access Config Setup
+      template:
+        src: templates/hostapd.j2
+        dest: /etc/default/hostapd
+        owner: root
+        group: root
+        mode: 0644
+      notify:
+        - Restart HostAPD
+
+    - name: Setup Port Forwarding
+      template:
+        src: templates/sysctl.conf.j2
+        dest: /etc/sysctl.conf
+        owner: root
+        group: root
+        mode: 0644
+      notify:
+        - Restart HostAPD
+        - Restart DHCP
+
+    - name: Add Reserved IP Address
+      template:
+        src: templates/NetworkManager.conf.j2
+        dest: /etc/NetworkManager/NetworkManager.conf
+        owner: root
+        group: root
+        mode: 0644
+      notify:
+        - Restart HostAPD
         - Restart DHCP
 
     - name: Add Docker GPG apt Key
@@ -60,4 +133,13 @@
 
   handlers:
     - name: Restart DHCP
-      service: name=isc-dhcp-server state=restarted
+      service:
+        name: isc-dhcp-server
+        state: restarted
+        enabled: true
+
+    - name: Restart HostAPD
+      service:
+        name: hostapd
+        state: restarted
+        enabled: true

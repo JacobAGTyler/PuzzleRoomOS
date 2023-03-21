@@ -2,6 +2,7 @@ import datetime
 import json
 import uuid
 from enum import Enum
+from typing import Optional
 
 from kafka import KafkaProducer
 from sqlalchemy import Column, Integer, UUID, DateTime, Table, ForeignKey, String, JSON
@@ -26,13 +27,14 @@ event_table = Table(
 class EventType(Enum):
     GAME_INITIALISATION = 'GAME_INITIALISATION'
     DEVICE_INITIALISATION = 'DEVICE_INITIALISATION'
-    INTERFACE_INITIALISATION = 'INTERFACE_INITIALISATION'
 
     GAME_START = 'GAME_START'
     GAME_END = 'GAME_END'
 
     PUZZLE_HINT = 'PUZZLE_HINT'
     PUZZLE_SOLVE = 'PUZZLE_SOLVE'
+
+    ATTEMPT = 'ATTEMPT'
 
 
 class Event:
@@ -43,7 +45,7 @@ class Event:
             published: bool = False,
             event_data: dict = None,
             event_id: uuid.UUID = uuid.uuid4(),
-            event_time: datetime.datetime = datetime.datetime.now()
+            event_time: datetime.datetime = datetime.datetime.now(),
     ):
         self._event_id = event_id
         self._event_time = event_time
@@ -61,16 +63,17 @@ class Event:
         self._event_data = event_data
 
         if 'description' not in self._event_data.keys() or self._event_data['description'] is None:
-            self.description = f'{self._event_type.value}_{self._event_id}'
+            self.description = f'{self._event_type.value}>>{self._event_id}'
         else:
             self.description = self._event_data['description']
 
     def publish(self):
         if not self._published:
-            producer = KafkaProducer(bootstrap_servers='kafka:9092')
-            producer.send('events', json.dumps(self.to_dict()).encode('utf-8'))
+            producer = KafkaProducer(batch_size=0, value_serializer=encode_message_event)
+            pending_message = producer.send(topic='events', value=self)
+            if pending_message.is_done:
+                self._published = True
             producer.flush()
-            self._published = True
 
     def to_dict(self) -> dict:
         data = {
@@ -86,8 +89,28 @@ class Event:
 
         return data
 
+    def get_trigger_value(self) -> Optional[str]:
+        triggered_event_types = [EventType.PUZZLE_SOLVE, EventType.ATTEMPT]
+
+        if 'trigger' in self._event_data.keys() and self._event_type in triggered_event_types:
+            return self._event_data['trigger']
+
+        return None
+
     def get_type(self):
         return self._event_type
+
+
+def encode_message_event(event: Event) -> bytes:
+    return json.dumps(event.to_dict()).encode('utf-8')
+
+
+def decode_message_event(message: bytes) -> Event:
+    data: dict = json.loads(message.decode('utf-8'))
+    data.pop('description')
+    data['event_type'] = EventType(data['event_type'])
+
+    return Event(**data)
 
 
 mapper_registry.map_imperatively(Event, event_table, properties={

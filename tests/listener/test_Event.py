@@ -25,13 +25,8 @@ class TestEvent:
             Event(None, None)
 
         with pytest.raises(ValueError) as evt_type_err:
-            Event(mock_game, None)
+            Event(None, mock_game)
 
             assert str(evt_type_err.value.args[0]) == "Event type cannot be empty & must be of type EventType"
-
-        with pytest.raises(ValueError) as evt_type_err:
-            Event(None, EventType.GAME_START)
-
-            assert str(evt_type_err.value.args[0]) == "Game cannot be empty & must be of type Game"
 
 

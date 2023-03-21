@@ -4,12 +4,15 @@
   become: true
 
   vars_files:
-    - "device-config.yml"
+    - "config/device-config.yml"
 
   tasks:
     - name: Install common APT
       apt:
-        name: software-properties-common
+        name:
+          - software-properties-common
+          - net-tools
+          - iw
         state: latest
         update_cache: true
 
@@ -19,13 +22,27 @@
         state: latest
         update_cache: true
 
-    - name: Install Python 3.11
+    - name: Debug Distribution
+      debug:
+        msg: "{{ hostvars[inventory_hostname]['ansible_distribution'] }}"
+
+    - name: Install Python 3.11 on Ubuntu
       apt:
         name:
           - python3.11
           - python3-pip
         state: latest
         update_cache: true
+      when: ansible_distribution == "Ubuntu"
+
+#    - name: Install Python 3.10 on Raspbian
+#      apt:
+#        name:
+#          - python3.10
+#          - python3-pip
+#        state: latest
+#        update_cache: true
+#      when: ansible_distribution == "Debian"
 
     - name: Clone Repository
       git:
@@ -36,54 +53,28 @@
         clone: true
       become: false
 
-    - name: Install Python Virtual Environment
-      pip:
-        name: virtualenv
-        state: present
-        virtualenv_python: python3.11
-      become: false
-
-    - name: Install GPIO Libraries
+    - name: Install RaspberryPi GPIO Library
       apt:
-        name:
-          - python3-rpi.gpio
-          - python3-rpi-lgpio
-          - python3-gpiozero
+        name: python3-rpi.gpio
         state: latest
         update_cache: true
 
-    - name: Download PiGPIO
-      get_url:
-        url: https://github.com/joan2937/pigpio/archive/master.zip
-        dest: /tmp/pigpio.zip
+    - name: Install RaspberryPi GPIO Library
+      apt:
+        name: python3-rpi-lgpio
+        state: latest
+        update_cache: true
+      when: ansible_distribution == "Ubuntu"
 
-    - name: Unzip PiGPIO
-      unarchive:
-          src: /tmp/pigpio.zip
-          dest: /tmp
-          remote_src: true
-
-    - name: Make PiGPIO
-      make:
-        chdir: /tmp/pigpio-master
-        target: install
-
-    - name: Install PiGPIO
-      command:
-        cmd: make install
-        chdir: /tmp/pigpio-master
-
-#    - name: Enable PiGPIO Daemon
-#      service:
-#        name: pigpiod
-#        enabled: true
-#        state: started
+    - name: Install GPIO Zero
+      apt:
+        name: python3-gpiozero
+        state: latest
+        update_cache: true
 
     - name: Install Dependencies
       pip:
           chdir: "{{ vars.device_directory }}"
           requirements: requirements.txt
-          virtualenv: venv
-          virtualenv_python: python3.11
           state: present
       become: false
