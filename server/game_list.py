@@ -1,7 +1,10 @@
 from flask import render_template
+from sqlalchemy import select, Row
 
 from data.database import get_connection, get_engine, retrieve_entity, retrieve_all
 from game.Game import Game
+from listener.Event import Event
+from game.Puzzle import Puzzle
 from game.GameConfig import GameConfig, import_game_config
 
 engine = get_engine()
@@ -14,11 +17,26 @@ def get_game_list():
     return render_template('games.html', title='Puzzle Room OS', games=games)
 
 
-def get_game(game_id):
+def get_game(game_id: str) -> Game:
     session = get_connection(engine)
-    game: Game = retrieve_entity(game_id, Game, session)
+    statement = select(Game)\
+        .where(Game.game_id == game_id)\
+        .join(Event, isouter=True).order_by(Event.event_time).add_columns(Event)\
+        .join(GameConfig).add_columns(GameConfig)\
+        .join(Game.puzzles, isouter=True).add_columns(Puzzle)
+    result: Row = session.execute(statement).first()
 
-    return render_template('game.html', title='Puzzle Room OS', game=game)
+    print(result)
+
+    return result.__getitem__(0)
+
+
+def get_current_game() -> Game:
+    session = get_connection(engine)
+    statement = select(Game).order_by('end_time DESC').where(Game.ended is False).limit(1)
+    result: Row = session.execute(statement).first()
+
+    return result.__getitem__(0)
 
 
 def new_game(game_config_code: str):

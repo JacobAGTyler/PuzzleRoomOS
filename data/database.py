@@ -1,3 +1,5 @@
+from typing import Union
+
 from sqlalchemy import create_engine, select
 from sqlalchemy.engine import Engine
 from sqlalchemy.engine.row import Row
@@ -26,7 +28,7 @@ def save_entity(entity, session: Session):
     session.add(entity)
 
 
-def retrieve_entity(entity_id: int, entity_class: type, session: Session):
+def retrieve_entity(entity_id: Union[int, str], entity_class: type, session: Session):
     entity_id_name = f'{snakecase(entity_class.__name__)}_id'
     statement = select(entity_class).where(getattr(entity_class, entity_id_name) == entity_id)
     result: Row = session.execute(statement).first()

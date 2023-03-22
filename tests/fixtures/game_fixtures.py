@@ -1,29 +1,71 @@
+import uuid
+
 import pytest
+
+from sqlalchemy.orm.collections import __set
+from sqlalchemy.orm.attributes import InstrumentedAttribute
 
 from unittest.mock import Mock
 from game.Puzzle import Puzzle
 from game.Game import Game
 from game.GameConfig import GameConfig
 
+from tests.fixtures.puzzle_fixtures import pc1, pc2, pc3, pc4, pc5, built_puzzle
+
 m_game_config = Mock(spec=GameConfig)
 
 
 def p_list() -> list[Puzzle]:
     return [
-        Mock(spec=Puzzle, _puzzle_id="puzzle_1", _prerequisites=None, has_prerequisites=lambda: False,
-             get_prerequisites=lambda: set(), get_puzzle_id=lambda: "puzzle_1"),
-        Mock(spec=Puzzle, _puzzle_id="puzzle_2", _prerequisites=None, has_prerequisites=lambda: False,
-             get_prerequisites=lambda: set(), get_puzzle_id=lambda: "puzzle_2"),
-        Mock(spec=Puzzle, _puzzle_id="puzzle_3", _prerequisites=['puzzle_1', 'puzzle_2'],
-             has_prerequisites=lambda: True, get_prerequisites=lambda: ['puzzle_1', 'puzzle_2'],
-             get_puzzle_id=lambda: "puzzle_3"),
-        Mock(spec=Puzzle, _puzzle_id="puzzle_4", _prerequisites=['puzzle_3'], has_prerequisites=lambda: True,
-             get_prerequisites=lambda: ['puzzle_3'], get_puzzle_id=lambda: "puzzle_4")
+        Mock(
+            spec=Puzzle,
+            _puzzle_reference="puzzle_1",
+            _puzzle_id="11111111-1111-1111-1111-111111111111",
+            _puzzle_config=pc1,
+            _prerequisites=None,
+            has_prerequisites=lambda: False,
+            get_prerequisites=lambda: set(),
+            get_puzzle_ref=lambda: "puzzle_1",
+        ),
+        Mock(
+            spec=Puzzle,
+            _puzzle_reference="puzzle_2",
+            _puzzle_id="22222222-2222-2222-2222-222222222222",
+            _puzzle_config=pc2,
+            _prerequisites=None,
+            has_prerequisites=lambda: False,
+            get_prerequisites=lambda: set(),
+            get_puzzle_ref=lambda: "puzzle_2",
+        ),
+        Mock(
+            spec=Puzzle,
+            _puzzle_reference="puzzle_3",
+            _puzzle_id="33333333-3333-3333-3333-333333333333",
+            _puzzle_config=pc3,
+            _prerequisites=['puzzle_1', 'puzzle_2'],
+            has_prerequisites=lambda: True,
+            get_prerequisites=lambda: ['puzzle_1', 'puzzle_2'],
+            get_puzzle_ref=lambda: "puzzle_3",
+        ),
+        Mock(
+            spec=Puzzle,
+            _puzzle_reference="puzzle_2",
+            _puzzle_id="44444444-4444-4444-4444-444444444444",
+            _puzzle_config=pc4,
+            _prerequisites=['puzzle_3'],
+            has_prerequisites=lambda: True,
+            get_prerequisites=lambda: ['puzzle_3'],
+            get_puzzle_ref=lambda: "puzzle_4",
+        )
     ]
 
 
 @pytest.fixture
-def mock_game_config():
+def mock_game_config(monkeypatch):
+    monkeypatch.setattr(
+        'sqlalchemy.orm.attributes.InstrumentedAttribute.__set__',
+        Mock(spec=InstrumentedAttribute.__set__)
+    )
     return m_game_config
 
 
@@ -33,7 +75,8 @@ def built_game_config() -> GameConfig:
 
 
 @pytest.fixture
-def mock_puzzle_list():
+def mock_puzzle_list(monkeypatch):
+    monkeypatch.setattr('sqlalchemy.orm.collections.__set', Mock(spec=__set))
     return p_list()
 
 
@@ -43,7 +86,12 @@ def mock_game():
 
 
 @pytest.fixture
-def built_game() -> Game:
+def built_game(monkeypatch) -> Game:
+    monkeypatch.setattr(
+        'sqlalchemy.orm.attributes.InstrumentedAttribute.__set__',
+        Mock(spec=InstrumentedAttribute.__set__)
+    )
+    monkeypatch.setattr('sqlalchemy.orm.collections.__set', Mock(spec=__set))
     gm = Game("game_reference", m_game_config)
 
     for p in p_list():
@@ -53,6 +101,16 @@ def built_game() -> Game:
 
 
 @pytest.fixture
-def mock_puzzle():
-    return Mock(spec=Puzzle, _puzzle_id="puzzle_5", _prerequisites=['puzzle_4'], has_prerequisites=lambda: True,
-                get_prerequisites=lambda: ['puzzle_4'], get_puzzle_id=lambda: "puzzle_5")
+def mock_puzzle(monkeypatch):
+    monkeypatch.setattr('sqlalchemy.orm.collections.__set', Mock(spec=__set))
+
+    return Mock(
+        spec=Puzzle,
+        _puzzle_reference="puzzle_5",
+        _puzzle_id="11111111-1111-1111-1111-111111111111",
+        _puzzle_config=pc5,
+        _prerequisites=['puzzle_4'],
+        has_prerequisites=lambda: True,
+        get_prerequisites=lambda: ['puzzle_4'],
+        get_puzzle_id=lambda: "puzzle_5",
+    )

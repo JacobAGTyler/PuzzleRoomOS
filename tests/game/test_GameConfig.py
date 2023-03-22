@@ -43,7 +43,7 @@ class TestImportGameConfig:
         assert game_config.game_license == 'https://opensource.org/licenses/MIT'
         assert game_config.game_url == 'https://test.com'
 
-        assert game_config.puzzles[0].get_reference() == 'Test Puzzle A'
+        assert game_config.get_puzzle_configs()[0].get_reference() == 'Test Puzzle A'
 
     def test_game_config_init_fail_reference(self):
         with pytest.raises(FileNotFoundError, match="Config file not found:"):

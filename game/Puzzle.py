@@ -1,19 +1,31 @@
+import uuid
 from datetime import datetime
 from typing import Optional
-from sqlalchemy import Column, Integer, String, Table, ForeignKey, DateTime, Boolean
+from sqlalchemy import Column, Integer, String, Table, ForeignKey, DateTime, Boolean, JSON, UUID
 from sqlalchemy.orm import relationship
 
 from data import mapper_registry
 
+from game import PuzzleConfig
+
 
 class Puzzle:
-    def __init__(self, puzzle_id: str):
-        self._puzzle_id: str = puzzle_id
+    def __init__(self, puzzle_config: PuzzleConfig, puzzle_reference: str, puzzle_id: UUID = uuid.uuid4()):
+        self._puzzle_id: UUID = puzzle_id
+        self._puzzle_config: PuzzleConfig = puzzle_config
+        self._puzzle_reference = puzzle_reference
 
         self._prerequisites: Optional[set[str]] = None
 
+        self._data: Optional[dict] = None
+        self._solve_time: Optional[datetime] = None
+        self._solved: bool = False
+
     def get_puzzle_id(self) -> str:
         return self._puzzle_id
+
+    def get_puzzle_ref(self) -> str:
+        return self._puzzle_reference
 
     def set_prerequisites(self, prerequisites: set[str]):
         self._prerequisites = prerequisites
@@ -40,12 +52,13 @@ puzzle_table = Table(
     'puzzle',
     mapper_registry.metadata,
 
-    Column('puzzle_id', Integer, primary_key=True),
+    Column('puzzle_id', UUID, primary_key=True),
     Column('game_id', Integer, ForeignKey('game.game_id')),
     Column('puzzle_config_id', Integer, ForeignKey('puzzle_config.puzzle_config_id')),
     Column('puzzle_reference', String(255)),
     Column('solved', Boolean, default=False),
     Column('solve_time', DateTime, nullable=True),
+    Column('data', JSON, nullable=True),
 )
 
 mapper_registry.map_imperatively(Puzzle, puzzle_table, properties={

@@ -1,3 +1,5 @@
+import uuid
+
 from game.Puzzle import Puzzle
 
 from tests.fixtures import built_puzzle as puzzle
@@ -9,7 +11,10 @@ class TestPuzzle:
         assert isinstance(puzzle, Puzzle)
 
     def test_get_puzzle_id(self, puzzle):
-        assert puzzle.get_puzzle_id() == "test_puzzle_1"
+        assert  isinstance(puzzle.get_puzzle_id(), uuid.UUID)
+
+    def test_get_puzzle_reference(self, puzzle):
+        assert puzzle.get_puzzle_ref() == 'test_puzzle_1'
 
     def test_set_prerequisites(self, puzzle):
         assert puzzle.get_prerequisites() is None

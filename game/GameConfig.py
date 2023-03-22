@@ -12,8 +12,9 @@ game_config_table = Table(
     mapper_registry.metadata,
 
     Column('game_config_id', Integer, primary_key=True),
-    Column('name', String(255)),
-    Column('version', String(255)),
+    Column('config_reference', String(255)),
+    Column('name', String(255), key='_name'),
+    Column('version', String(255), key='_version'),
     Column('description', String(255)),
     Column('author', String(255)),
     Column('author_url', String(255)),
@@ -36,7 +37,7 @@ class GameConfig:
             puzzles: Optional[list[dict]] = None,
             parameters: Optional[dict] = None
     ):
-        self._config_reference = config_reference
+        self.config_reference = config_reference
 
         self._name = name
         self._version = version
@@ -50,19 +51,20 @@ class GameConfig:
         if parameters is not None and 'durationMinutes' in parameters.keys():
             self.duration_minutes = parameters['durationMinutes']
 
-        self.puzzles = []
+        self._puzzle_configs = []
 
         if puzzles is not None:
             for puzzle in puzzles:
-                self.puzzles.append(PuzzleConfig(puzzle))
-
-        super().__init__()
+                self._puzzle_configs.append(PuzzleConfig(puzzle))
 
     def get_reference(self) -> str:
-        return self._config_reference
+        return self.config_reference
 
     def get_name(self) -> str:
         return self._name
+
+    def get_puzzle_configs(self) -> list[PuzzleConfig]:
+        return self._puzzle_configs
 
     def get_version(self) -> str:
         return self._version

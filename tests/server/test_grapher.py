@@ -14,11 +14,11 @@ class TestBuildGraph:
             build_graph("NOT EMPTY")
 
     def test_grapher_no_puzzles(self, mock_game):
-        mock_game._puzzles = set()
+        mock_game.puzzles = set()
         with pytest.raises(ValueError, match="Game has no puzzles"):
             build_graph(mock_game)
 
-        mock_game._puzzles = None
+        mock_game.puzzles = None
         with pytest.raises(ValueError, match="Game has no puzzles"):
             build_graph(mock_game)
 

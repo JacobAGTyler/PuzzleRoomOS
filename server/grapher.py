@@ -33,6 +33,6 @@ def build_graph(game: Game, direction: GraphDirection = GraphDirection.LEFT_RIGH
     for game_graph_node in game_graph:
         if game_graph_node.has_prerequisites():
             for prerequisite in game_graph_node.get_prerequisites():
-                graph_text += f'\n"{prerequisite}" --> "{game_graph_node.get_puzzle_id()}"'
+                graph_text += f'\n"{prerequisite}" --> "{game_graph_node.get_puzzle_ref()}"'
 
     return graph_text
