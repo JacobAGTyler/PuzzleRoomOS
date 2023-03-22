@@ -2,10 +2,15 @@ from sqlalchemy import create_engine, select
 from sqlalchemy.engine import Engine
 from sqlalchemy.engine.row import Row
 
+from os import getenv
+
 from sqlalchemy.orm import Session
 from caseconverter import snakecase
 
-connection_string = "postgresql+psycopg2://jacob:jacob@localhost:5432/puzzle_room_os"
+connection_string = getenv(
+    key='DATABASE_URL',
+    default='postgresql+psycopg2://jacob:jacob@localhost:5432/puzzle_room_os'
+)
 
 
 def get_engine() -> Engine:

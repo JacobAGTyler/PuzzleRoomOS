@@ -1,0 +1,12 @@
+---
+name: Sixers & Seconders 2023
+version: '1.0.0'
+author: Jacob Tyler
+description: Game for Sixers & Seconders 2023
+gameLicense: https://opensource.org/licenses/MIT
+gameURL: https://lbdscouts.org.uk/sixers2023
+authorURL: https://jacobtyler.co.uk
+parameters:
+  countdownDuration: 50
+puzzles: []
+

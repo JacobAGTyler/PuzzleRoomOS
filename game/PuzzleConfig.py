@@ -10,10 +10,13 @@ class PuzzleConfig:
             raise ValueError('Puzzle definition and setup are required attributes')
 
         self._puzzle_data = puzzle_data
-        # self._puzzle_name = puzzle_data['name']
-
         self.definition = puzzle_data['definition']
         self.setup = puzzle_data['setup']
+
+        self._puzzle_reference = self.definition['name']
+
+    def get_reference(self) -> str:
+        return self._puzzle_reference
 
 
 puzzle_config_table = Table(

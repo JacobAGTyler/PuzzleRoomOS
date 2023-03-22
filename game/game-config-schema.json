@@ -3,12 +3,8 @@
   "$id": "https://escaperoomdesigner.com/game_schema.schema.json",
   "title": "Game Configuration Schema",
   "description": "The format of a game configuration. Including puzzle interactions and setup.",
-  "type": "array",
   "additionalProperties": false,
-  "additionalItems": false,
-  "items": {
-    "$ref": "#/definitions/game"
-  },
+  "$ref": "#/definitions/gameSetup",
   "definitions": {
     "puzzle": {
       "description": "The Puzzle object containing a definition and the game setup.",
@@ -85,8 +81,18 @@
         }
       }
     },
-    "game": {
+    "gameSetup": {
       "type": "object",
+      "required": [
+        "name",
+        "version",
+        "description",
+        "gameURL",
+        "author",
+        "authorURL",
+        "gameLicense",
+        "puzzles"
+      ],
       "additionalProperties": false,
       "properties": {
         "name": {
@@ -133,18 +139,20 @@
           "items": {
             "$ref": "#/definitions/puzzle"
           }
+        },
+        "parameters": {
+          "type": "object",
+          "description": "The parameters for this game.",
+          "properties": {
+            "countdownDuration": {
+              "type": "integer",
+              "description": "The duration of the countdown timer in minutes.",
+              "minimum": 0,
+              "maximum": 3600
+            }
+          }
         }
-      },
-      "required": [
-        "name",
-        "version",
-        "description",
-        "gameURL",
-        "author",
-        "authorURL",
-        "gameLicense",
-        "puzzles"
-      ]
+      }
     }
   }
 }

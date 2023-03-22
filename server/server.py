@@ -1,8 +1,8 @@
 from flask import Flask, render_template
 from flask_restful import Api, Resource
 
-from grapher import build_graph
-from game_list import get_game_list, get_game
+from server.grapher import build_graph
+from server.game_list import get_game_list, get_game, new_game
 
 
 class GameResource(Resource):
@@ -11,9 +11,9 @@ class GameResource(Resource):
 
 
 def create_app():
-    new_app = Flask('Puzzle Room OS')
+    new_app = Flask('Puzzle Room OS', template_folder='server/templates', static_folder='server/static')
     api = Api(new_app)
-    api.add_resource(GameResource, "/game")
+    api.add_resource(GameResource, "/game/<string:game_id>")
 
     @new_app.route('/')
     def index():
@@ -22,6 +22,10 @@ def create_app():
     @new_app.route('/games')
     def games():
         return get_game_list()
+
+    @new_app.route('/new-game/<game_config_code>')
+    def add_new_game(game_config_code):
+        return new_game(game_config_code)
 
     @new_app.route('/game/<game_id>')
     def game(game_id):

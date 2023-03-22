@@ -33,7 +33,8 @@ class GameConfig:
             author_url: Optional[str] = None,
             game_license: Optional[str] = None,
             game_url: Optional[str] = None,
-            puzzles: Optional[list[dict]] = None
+            puzzles: Optional[list[dict]] = None,
+            parameters: Optional[dict] = None
     ):
         self._config_reference = config_reference
 
@@ -44,6 +45,10 @@ class GameConfig:
         self.author_url = author_url
         self.game_license = game_license
         self.game_url = game_url
+
+        self.duration_minutes = 55
+        if parameters is not None and 'durationMinutes' in parameters.keys():
+            self.duration_minutes = parameters['durationMinutes']
 
         self.puzzles = []
 
@@ -63,31 +68,25 @@ class GameConfig:
         return self._version
 
 
-def import_game_config(config_reference: str, instance: int = None) -> set[GameConfig]:
-    config_set = import_config(config_reference=config_reference, config_type=ConfigType.GAME)
+def import_game_config(config_reference: str) -> GameConfig:
+    config = import_config(config_reference=config_reference, config_type=ConfigType.GAME)
 
-    def map_config(config: dict) -> GameConfig:
-        return GameConfig(
-            config_reference=config_reference,
-            name=config['name'],
-            version=config['version'],
-            description=config['description'],
-            author=config['author'],
-            author_url=config['authorURL'],
-            game_license=config['gameLicense'],
-            game_url=config['gameURL'],
-            puzzles=config['puzzles']
-        )
+    parameters = None
+    if 'parameters' in config.keys():
+        parameters = config['parameters']
 
-    imported_configs = set()
-
-    if instance is None:
-        for config_instance in config_set['instances']:
-            imported_configs.add(map_config(config_instance))
-    else:
-        imported_configs.add(map_config(config_set[instance]))
-
-    return imported_configs
+    return GameConfig(
+        config_reference=config_reference,
+        name=config['name'],
+        version=config['version'],
+        description=config['description'],
+        author=config['author'],
+        author_url=config['authorURL'],
+        game_license=config['gameLicense'],
+        game_url=config['gameURL'],
+        puzzles=config['puzzles'],
+        parameters=parameters
+    )
 
 
 mapper_registry.map_imperatively(GameConfig, game_config_table, properties={

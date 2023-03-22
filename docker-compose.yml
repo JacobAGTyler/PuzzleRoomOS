@@ -19,7 +19,7 @@ services:
     ports:
       - 5002:8000
     volumes:
-      - ./:/listener
+      - app:/var/www/html/data
   webserver:
     hostname: puzzle-webserver
     container_name: puzzle-webserver
@@ -30,9 +30,10 @@ services:
     ports:
       - 5001:80
     environment:
-      ServerName: "localhost"
+      ServerName: "puzzle-webserver"
+      DATABASE_URL: "sqlite:////var/www/html/database.db"
     volumes:
-      - $PWD/www:/var/www/html
+      - app:/var/www/html/data
   server:
     hostname: puzzle-server
     container_name: puzzle-server
@@ -45,8 +46,10 @@ services:
       - broker
     ports:
       - 5003:80
+    environment:
+      DATABASE_URL: "sqlite:////var/www/html/database.db"
     volumes:
-      - ./:/server
+      - app:/var/www/html/data
   verify:
     build:
       context: .
@@ -101,3 +104,4 @@ services:
 
 volumes:
   redis-data:
+  app:

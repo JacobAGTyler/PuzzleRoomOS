@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, Table, ForeignKey
 
 from typing import Optional
-from datetime import datetime
+from datetime import datetime, timedelta
 from game.GameConfig import GameConfig
 from game.Puzzle import Puzzle
 
@@ -58,6 +58,12 @@ class Game:
 
     def get_puzzles(self) -> set[Puzzle]:
         return self._puzzles
+
+    def get_target_time(self) -> datetime:
+        if self._start_time is None:
+            return datetime.now() + timedelta(minutes=self._game_config.duration_minutes)
+
+        return self._start_time + timedelta(minutes=self._game_config.duration_minutes)
 
     def parse_puzzle_dependencies(self):
         puzzle_dependencies = nx.DiGraph()
