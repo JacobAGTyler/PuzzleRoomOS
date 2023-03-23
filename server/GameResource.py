@@ -2,7 +2,7 @@ from typing import Optional
 
 from flask import request
 from flask_restful import Resource
-from server.game_list import get_game
+from data.game_list import get_game
 from game.Game import Game
 from data.database import get_connection, get_engine
 from listener.GameHandler import GameHandler

@@ -1,14 +1,13 @@
-import uuid
-
 import networkx as nx
 
 from sqlalchemy.orm import relationship
+from sqlalchemy.orm.session import Session
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, Table, ForeignKey
 
 from typing import Optional, Union
 from datetime import datetime, timedelta
 
-from data.database import retrieve_entity, get_connection
+from data.database import retrieve_entity, get_connection, get_engine
 from game.GameConfig import GameConfig, import_game_config
 from game.Puzzle import Puzzle
 
@@ -144,11 +143,10 @@ mapper_registry.map_imperatively(Game, game_table, properties={
 })
 
 
-def make_new_game(game_config_code: Union[uuid.UUID, str]) -> Game:
+def make_new_game(game_config_code: Union[int, str], session: Session = get_connection(get_engine())) -> Game:
     if type(game_config_code) == str:
         game_config: GameConfig = import_game_config(game_config_code)
     else:
-        session = get_connection()
         game_config: GameConfig = retrieve_entity(game_config_code, GameConfig, session)
 
     game = Game(game_config.get_reference(), game_config)

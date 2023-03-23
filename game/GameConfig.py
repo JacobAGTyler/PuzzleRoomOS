@@ -52,11 +52,17 @@ class GameConfig:
         self.duration_minutes = duration_minutes
         self.parameters = parameters
 
-        self._puzzle_configs = []
+        self.puzzle_configs = []
 
         if puzzles is not None:
             for puzzle in puzzles:
-                self._puzzle_configs.append(PuzzleConfig(puzzle))
+                definition = puzzle['definition']
+                puzzle_config = PuzzleConfig(
+                    puzzle_reference=definition['name'],
+                    definition=definition,
+                    setup=puzzle['setup'],
+                )
+                self.puzzle_configs.append(puzzle_config)
 
     def get_reference(self) -> str:
         return self.config_reference
@@ -65,7 +71,7 @@ class GameConfig:
         return self._name
 
     def get_puzzle_configs(self) -> list[PuzzleConfig]:
-        return self._puzzle_configs
+        return self.puzzle_configs
 
     def get_version(self) -> str:
         return self._version

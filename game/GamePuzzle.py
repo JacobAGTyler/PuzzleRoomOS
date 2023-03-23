@@ -9,6 +9,8 @@ class GamePuzzle:
         self._game = game
         self._puzzle = puzzle
 
+        self.solutions = []
+
         self._solved = False
         self._solve_time = datetime.datetime.now()
 

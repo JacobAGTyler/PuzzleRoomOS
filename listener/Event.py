@@ -13,6 +13,8 @@ from data import mapper_registry
 
 
 class EventType(enum.Enum):
+    GAME_CREATION = 'GAME_CREATION'
+
     GAME_INITIALISATION = 'GAME_INITIALISATION'
     DEVICE_INITIALISATION = 'DEVICE_INITIALISATION'
 

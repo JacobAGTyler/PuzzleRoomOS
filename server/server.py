@@ -1,17 +1,18 @@
 from flask import Flask, render_template
 from flask_restful import Api
 
-from server.grapher import build_graph
-from server.game_list import get_game_list, get_game, new_game, get_current_game
+from data.game_list import get_game_list, get_game, new_game
 from server.GameResource import GameResource
+from server.GamesResource import GamesResource
 from server.AttemptResource import AttemptResource
 
 
 def create_app():
     new_app = Flask('Puzzle Room OS', template_folder='server/templates', static_folder='server/static')
     api = Api(new_app)
-    api.add_resource(GameResource, "/api/game/<string:game_id>")
-    api.add_resource(AttemptResource, "/api/attempt")
+    api.add_resource(GameResource, '/api/game/<string:game_id>')
+    api.add_resource(AttemptResource, '/api/attempt')
+    api.add_resource(GamesResource, '/api/games')
 
     @new_app.route('/')
     def index():
@@ -19,7 +20,8 @@ def create_app():
 
     @new_app.route('/games')
     def games():
-        return get_game_list()
+        games = get_game_list()
+        return render_template('games.html', title='Puzzle Room OS', games=games)
 
     @new_app.route('/new-game/<game_config_code>')
     def add_new_game(game_config_code):

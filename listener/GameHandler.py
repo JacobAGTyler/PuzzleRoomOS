@@ -1,7 +1,9 @@
+from typing import Union
+
 from sqlalchemy.orm import Session
 
-from game.Game import Game
-from data.database import save_entity, retrieve_entity
+from game.Game import Game, make_new_game
+from data.database import save_entity, retrieve_entity, get_engine, get_connection
 from listener.Event import Event, EventType
 
 
@@ -20,6 +22,15 @@ class GameHandler:
         evt.publish()
         return evt
 
+    def initialise_game(self, game_config_code: Union[str, int]):
+        pass
+
+    def new_game(self):
+        evt = self.make_and_send(EventType.GAME_CREATION)
+
+        if evt.is_published():
+            self.do_save(evt)
+
     def start_game(self):
         evt = self.make_and_send(EventType.GAME_START)
         started = self.game.start_game()
@@ -33,3 +44,8 @@ class GameHandler:
 
         if evt.is_published() and ended:
             self.do_save(evt)
+
+
+def make_new_game_handler(game_config_code: Union[str, int], session: Session = get_connection(get_engine())):
+    game = make_new_game(game_config_code=game_config_code, session=session)
+    return GameHandler(game=game, session=session)

@@ -11,11 +11,14 @@ from game.GameConfig import GameConfig, import_game_config
 engine = get_engine()
 
 
-def get_game_list():
-    session = get_connection(engine)
-    games = retrieve_all(Game, session)
+def get_game_list(session: Session = get_connection(engine)) -> list[Game]:
+    games: list[Game] = []
+    row: Row
+    for row in retrieve_all(Game, session):
+        game = row.__getitem__(0)
+        games.append(game)
 
-    return render_template('games.html', title='Puzzle Room OS', games=games)
+    return games
 
 
 def get_game(game_id: str, session: Session = get_connection(engine)) -> Game:

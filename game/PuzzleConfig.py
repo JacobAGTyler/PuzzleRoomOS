@@ -5,15 +5,18 @@ from data import mapper_registry
 
 
 class PuzzleConfig:
-    def __init__(self, puzzle_data: dict):
-        if 'definition' not in puzzle_data.keys() or 'setup' not in puzzle_data.keys():
+    def __init__(
+            self,
+            puzzle_reference: str,
+            definition: dict,
+            setup: dict,
+    ):
+        if definition is None or setup is None:
             raise ValueError('Puzzle definition and setup are required attributes')
 
-        self._puzzle_data = puzzle_data
-        self.definition = puzzle_data['definition']
-        self.setup = puzzle_data['setup']
-
-        self._puzzle_reference = self.definition['name']
+        self.definition = definition
+        self.setup = setup
+        self._puzzle_reference = puzzle_reference
 
     def get_reference(self) -> str:
         return self._puzzle_reference
@@ -25,9 +28,8 @@ puzzle_config_table = Table(
 
     Column('puzzle_config_id', Integer, primary_key=True),
     Column('game_config_id', Integer, ForeignKey('game_config.game_config_id')),
-    Column('puzzle_data', JSON),
-    Column('puzzle_reference', String(255)),
-    Column('definition', String(255)),
+    Column('puzzle_reference', String(255), key='_puzzle_reference'),
+    Column('definition', JSON),
     Column('setup', JSON),
 )
 
