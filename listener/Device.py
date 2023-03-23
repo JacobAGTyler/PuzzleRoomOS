@@ -1,11 +1,9 @@
-import socket
 from typing import Optional
 
 from kafka import KafkaConsumer
 
 from listener.Interface import Interface
 from listener.Event import Event, EventType, decode_message_event
-from utilities.config import import_config, ConfigType
 from game.Game import Game
 
 
@@ -16,6 +14,7 @@ class Device:
         self._topic = device_config['topic']
         self._interfaces = []
         self._trigger_references: list[str] = []
+        self.is_database_device = False
 
     def initialise(self, game: Optional[Game] = None):
         initialisation_event = Event(
@@ -63,24 +62,4 @@ class Device:
             print('Connected to Kafka.')
 
         for message in consumer:
-            print(message)
-
-
-def instantiate_device(device_code: str = None):
-    if device_code is None:
-        device_code = socket.gethostname()
-        device_code = device_code.split('.')[0]
-        device_code = device_code.replace('puzzle-', '')
-
-    device_config = import_config(device_code, ConfigType.DEVICE)
-
-    device = Device(device_config=device_config, device_code=device_code)
-
-    for interface_config in device_config['interfaces']:
-        interface = Interface(
-            trigger_references=[],
-            config=interface_config
-        )
-        device.add_interface(interface)
-
-    return device
+            self.process_message(message.value)

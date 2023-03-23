@@ -29,6 +29,7 @@ def mock_interface_config() -> dict:
 
 m_dev_cfg = {
     'topic': 'game',
+    'isDatabase': False,
     'interfaces': [
         m_inf_cfg
     ]

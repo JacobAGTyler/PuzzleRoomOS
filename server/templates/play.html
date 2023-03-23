@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ title }}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='scss/base.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Attach an event listener to the form submission event
+            $('#attempt-form').submit(function (event) {
+                // Prevent the default form submission behavior
+                event.preventDefault();
+
+                // Serialize the form data into a query string
+                var formData = $(this).serialize();
+
+                // Send an AJAX request to the API endpoint
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/attempt',
+                    data: formData,
+                    success: function (response) {
+                        // Handle the API response here
+                        console.log(response);
+                        $("#attempt-form").trigger("reset");
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle any errors that occur during the API call
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+<div class="container-fluid px-4">
+    <div id="content">
+        <div class="container px-5">
+            <div class="row gx-5">
+                <h1>Puzzle Room!</h1>
+            </div>
+            <div class="row gx-5">
+                <div class="col">
+                    <div class="card bg-success-subtle">
+                        <div class="card-header">
+                            <h3>Attempt a Solution</h3>
+                        </div>
+                        <div class="card-body text-center text-lg-center">
+                            <br/>
+                            <form id="attempt-form">
+                                <input type="hidden" name="game_id" value="{{ game.game_id }}">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="attempt_text">TRY A CODE:</label>
+                                    <input class="form-control"
+                                           id="attempt_text" type="text"
+                                           name="attempt_text" placeholder="type or scan in text...">
+                                    <button class="btn btn-secondary" type="submit">Submit</button>
+                                </div>
+                            </form>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card bg-primary-subtle">
+                        <div class="card-header">
+                            <h3>Time Remaining</h3>
+                        </div>
+                        <div class="card-body text-center text-lg-center">
+                            <br/>
+                            <p class="lead" id="timer"></p>
+                            <br/>
+                        </div>
+                    </div>
+
+                    <script>
+                        // Set the date we're counting down to
+                        let countDownDate = new Date("{{ game.get_target_time().isoformat() }}").getTime();
+
+                        // Update the count down every 1 second
+                        let x = setInterval(function () {
+
+                            // Get today's date and time
+                            let now = new Date().getTime();
+
+                            // Find the distance between now and the count down date
+                            let distance = countDownDate - now;
+
+                            // Time calculations for days, hours, minutes and seconds
+                            let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                            let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                            // Display the result in the element with id="demo"
+                            document.getElementById("timer").innerHTML = days + "d " + hours + "h "
+                                + minutes + "m " + seconds + "s ";
+
+                            // If the count down is finished, write some text
+                            if (distance < 0) {
+                                clearInterval(x);
+                                document.getElementById("timer").innerHTML = "EXPIRED";
+                            }
+                        }, 1000);
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

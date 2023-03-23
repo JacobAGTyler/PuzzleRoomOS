@@ -5,7 +5,7 @@ import enum
 from typing import Optional
 
 from kafka import KafkaProducer
-from sqlalchemy import Column, Integer, UUID, DateTime, Table, ForeignKey, String, JSON, Boolean, Enum
+from sqlalchemy import Column, Integer, UUID, DateTime, Table, ForeignKey, JSON, Boolean, Enum
 from sqlalchemy.orm import relationship
 
 from game.Game import Game
@@ -29,7 +29,7 @@ event_table = Table(
     'event',
     mapper_registry.metadata,
 
-    Column('event_id', UUID, primary_key=True, key='_event_id'),
+    Column('event_id', UUID(as_uuid=False), primary_key=True, key='_event_id'),
     Column('game_id', Integer, ForeignKey('game.game_id'), nullable=True),
     Column('event_time', DateTime, nullable=False, key='_event_time'),
     Column('published', Boolean, nullable=False, default=False, key='_published'),
@@ -79,8 +79,7 @@ class Event:
             'event_id': str(self._event_id),
             'event_time': self._event_time.isoformat(),
             'event_type': self._event_type.value,
-            'event_data': self._event_data,
-            'description': self.description
+            'event_data': self._event_data
         }
 
         if isinstance(self.game, Game):
@@ -106,8 +105,11 @@ def encode_message_event(event: Event) -> bytes:
 
 def decode_message_event(message: bytes) -> Event:
     data: dict = json.loads(message.decode('utf-8'))
-    data.pop('description')
+    data['published'] = True
+    if 'game' in data.keys():
+        data.pop('game')
     data['event_type'] = EventType(data['event_type'])
+    data['event_id'] = uuid.UUID(data['event_id'])
 
     return Event(**data)
 

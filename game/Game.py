@@ -71,11 +71,17 @@ class Game:
         if not self.started:
             self.started = True
             self._start_time = datetime.now()
+            return True
+
+        return False
 
     def end_game(self):
         if not self.ended and self.started:
             self.ended = True
             self._end_time = datetime.now()
+            return True
+
+        return False
 
     def get_puzzle_set(self) -> set[Puzzle]:
         return self._puzzle_set

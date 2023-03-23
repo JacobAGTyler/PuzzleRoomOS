@@ -18,7 +18,8 @@ puzzles:
         - 955ABA37-D4E6-4EDD-AD44-6AAF86C288D1
         - 18963568-3CD3-4FBF-8D37-48A645798FA8
         - 171A790C-766D-4D7F-B921-87B24AC700BB
-
+      interfaceMapping:
+        - Key1
   - definition:
       puzzleId: A7FEA899-A7C6-4963-B7B5-0D07ABAB0623
       name: Test Puzzle B

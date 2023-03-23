@@ -22,14 +22,14 @@ class GameHandler:
 
     def start_game(self):
         evt = self.make_and_send(EventType.GAME_START)
-        self.game.start_game()
+        started = self.game.start_game()
 
-        if evt.is_published() and self.game.started:
+        if evt.is_published() and started:
             self.do_save(evt)
 
     def end_game(self):
         evt = self.make_and_send(EventType.GAME_END)
-        self.game.end_game()
+        ended = self.game.end_game()
 
-        if evt.is_published() and self.game.ended:
+        if evt.is_published() and ended:
             self.do_save(evt)

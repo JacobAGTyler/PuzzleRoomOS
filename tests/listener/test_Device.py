@@ -2,7 +2,8 @@ import unittest.mock
 
 import pytest
 
-from listener.Device import Device, instantiate_device
+from listener.Device import Device
+from listener.device_factory import instantiate_device
 from listener.Interface import Interface
 
 from tests.fixtures.listener_fixtures import mock_device_config, mock_interface, built_device, mock_event
@@ -44,8 +45,8 @@ class TestInstantiateDevice:
     @pytest.mark.usefixtures('mock_device_config', 'mock_interface')
     def test_instantiate_device(self, monkeypatch, mock_device_config, mock_interface):
         monkeypatch.setattr('socket.gethostname', lambda *args, **kwargs: 'puzzle-test')
-        monkeypatch.setattr('listener.Device.import_config', lambda *args, **kwargs: mock_device_config)
-        monkeypatch.setattr('listener.Device.Interface', lambda *args, **kwargs: mock_interface)
+        monkeypatch.setattr('listener.device_factory.import_config', lambda *args, **kwargs: mock_device_config)
+        monkeypatch.setattr('listener.device_factory.Interface', lambda *args, **kwargs: mock_interface)
         device = instantiate_device()
 
         assert isinstance(device, Device)
@@ -57,8 +58,8 @@ class TestInstantiateDevice:
 
     @pytest.mark.usefixtures('mock_device_config', 'mock_interface')
     def test_instantiate_device_no_hn(self, monkeypatch, mock_device_config, mock_interface):
-        monkeypatch.setattr('listener.Device.import_config', lambda *args, **kwargs: mock_device_config)
-        monkeypatch.setattr('listener.Device.Interface', lambda *args, **kwargs: mock_interface)
+        monkeypatch.setattr('listener.device_factory.import_config', lambda *args, **kwargs: mock_device_config)
+        monkeypatch.setattr('listener.device_factory.Interface', lambda *args, **kwargs: mock_interface)
         device = instantiate_device(device_code='goat')
 
         assert isinstance(device, Device)

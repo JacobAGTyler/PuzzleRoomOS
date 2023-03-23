@@ -1,12 +1,13 @@
+import logging
+import uuid
 from typing import Union
 
-from sqlalchemy import create_engine, select
+from sqlalchemy import create_engine, select, inspect
 from sqlalchemy.engine import Engine
 from sqlalchemy.engine.row import Row
+from sqlalchemy.orm import Session
 
 from os import getenv
-
-from sqlalchemy.orm import Session
 from caseconverter import snakecase
 
 connection_string = getenv(
@@ -25,10 +26,11 @@ def get_connection(engine: Engine) -> Session:
 
 
 def save_entity(entity, session: Session):
+    # state = inspect(entity)
     session.add(entity)
 
 
-def retrieve_entity(entity_id: Union[int, str], entity_class: type, session: Session):
+def retrieve_entity(entity_id: Union[int, str, uuid.UUID], entity_class: type, session: Session):
     entity_id_name = f'{snakecase(entity_class.__name__)}_id'
     statement = select(entity_class).where(getattr(entity_class, entity_id_name) == entity_id)
     result: Row = session.execute(statement).first()

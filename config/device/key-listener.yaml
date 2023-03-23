@@ -1,28 +1,29 @@
 ---
 name: Key Listener
 topic: events
+isDatabase: false
 interfaces:
-  - name: Key 1
+  - name: Key1
     relay: 1
     pin_number: 18
     relay_on_activate: false
-  - name: Key 2
+  - name: Key2
     relay: 2
     pin_number: 24
     relay_on_activate: false
-  - name: Key 3
+  - name: Key3
     relay: 3
     pin_number: 23
     relay_on_activate: false
-  - name: Key 4
+  - name: Key4
     relay: 4
     pin_number: 25
     relay_on_activate: false
-  - name: Key 5
+  - name: Key5
     relay: 5
     pin_number: 21
     relay_on_activate: false
-  - name: Key 6
+  - name: Key6
     relay: 6
     pin_number: 20
     relay_on_activate: false

@@ -68,12 +68,22 @@
         "prerequisites": {
           "type": "array",
           "description": "A list of puzzles required to be solved before this puzzle can be solved.",
+          "additionalItems": false,
           "items": {
             "$ref": "#/definitions/puzzleId"
           }
         },
         "solutionSet": {
           "description": "The solution set for this puzzle. This is the set of solutions that will be used to unlock the puzzle.",
+          "additionalItems": false,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "interfaceMapping": {
+          "description": "The mapping of the puzzle interface to the GPIO pins.",
+          "additionalItems": false,
           "type": "array",
           "items": {
             "type": "string"

@@ -33,7 +33,7 @@ def get_game(game_id: str, session: Session = get_connection(engine)) -> Game:
 
 def get_current_game() -> Game:
     session = get_connection(engine)
-    statement = select(Game).order_by('end_time DESC').where(Game.ended is False).limit(1)
+    statement = select(Game).where(Game.ended is False).limit(1)
     result: Row = session.execute(statement).first()
 
     return result.__getitem__(0)

@@ -6,7 +6,8 @@
   "required": [
     "name",
     "interfaces",
-    "topic"
+    "topic",
+    "isDatabase"
   ],
   "properties": {
     "name": {
@@ -14,6 +15,10 @@
     },
     "topic": {
       "type": "string"
+    },
+    "isDatabase": {
+      "type": "boolean",
+      "default": false
     },
     "interfaces": {
       "type": "array",

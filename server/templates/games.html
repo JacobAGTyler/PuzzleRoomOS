@@ -18,7 +18,10 @@
                 {% for game in games %}
                 <tr>
                     <td>{{ game.0.game_id }}</td>
-                    <td><a class="btn btn-outline-primary" href="/game/{{ game.0.game_id }}" role="button">View</a></td>
+                    <td>
+                        <a class="btn btn-outline-success" href="/play/{{ game.0.game_id }}" role="button">Play</a>
+                        <a class="btn btn-outline-primary" href="/game/{{ game.0.game_id }}" role="button">View</a>
+                    </td>
                     <td>{{ game.0.game_ref }}</td>
                     <td>{{ game.0.game_config.name }}</td>
                     <td>{{ game.0.game_config.version }}</td>

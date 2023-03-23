@@ -1,7 +1,8 @@
 import time
 from kafka.errors import NoBrokersAvailable
 
-from listener.Device import Device, instantiate_device
+from listener.Device import Device
+from listener.device_factory import instantiate_device
 
 do_loop = True
 timeout = 0

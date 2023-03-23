@@ -1,5 +1,6 @@
 name: Key Listener
 topic: events
+isDatabase: true
 interfaces:
   - name: Key 1
     relay: 1
