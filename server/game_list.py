@@ -1,5 +1,6 @@
 from flask import render_template
 from sqlalchemy import select, Row
+from sqlalchemy.orm import Session
 
 from data.database import get_connection, get_engine, retrieve_entity, retrieve_all
 from game.Game import Game
@@ -17,11 +18,10 @@ def get_game_list():
     return render_template('games.html', title='Puzzle Room OS', games=games)
 
 
-def get_game(game_id: str) -> Game:
-    session = get_connection(engine)
+def get_game(game_id: str, session: Session = get_connection(engine)) -> Game:
     statement = select(Game)\
         .where(Game.game_id == game_id)\
-        .join(Event, isouter=True).order_by(Event.event_time).add_columns(Event)\
+        .join(Event, isouter=True).add_columns(Event)\
         .join(GameConfig).add_columns(GameConfig)\
         .join(Game.puzzles, isouter=True).add_columns(Puzzle)
     result: Row = session.execute(statement).first()

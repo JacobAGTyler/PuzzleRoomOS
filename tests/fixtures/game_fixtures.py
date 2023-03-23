@@ -81,7 +81,11 @@ def mock_puzzle_list(monkeypatch):
 
 
 @pytest.fixture
-def mock_game():
+def mock_game(monkeypatch):
+    monkeypatch.setattr(
+        'sqlalchemy.orm.attributes.InstrumentedAttribute.__set__',
+        Mock(spec=InstrumentedAttribute.__set__)
+    )
     return Mock(spec=Game, _puzzles=set(), get_puzzles=lambda: set())
 
 

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, String, Table
+from sqlalchemy import Column, Integer, String, Table, JSON
 from typing import Optional
 
 from game.PuzzleConfig import PuzzleConfig
@@ -20,6 +20,8 @@ game_config_table = Table(
     Column('author_url', String(255)),
     Column('game_license', String(255)),
     Column('game_url', String(255)),
+    Column('parameters', JSON),
+    Column('duration_minutes', Integer),
 )
 
 
@@ -35,7 +37,8 @@ class GameConfig:
             game_license: Optional[str] = None,
             game_url: Optional[str] = None,
             puzzles: Optional[list[dict]] = None,
-            parameters: Optional[dict] = None
+            parameters: Optional[dict] = None,
+            duration_minutes: Optional[int] = 55
     ):
         self.config_reference = config_reference
 
@@ -46,10 +49,8 @@ class GameConfig:
         self.author_url = author_url
         self.game_license = game_license
         self.game_url = game_url
-
-        self.duration_minutes = 55
-        if parameters is not None and 'durationMinutes' in parameters.keys():
-            self.duration_minutes = parameters['durationMinutes']
+        self.duration_minutes = duration_minutes
+        self.parameters = parameters
 
         self._puzzle_configs = []
 

@@ -67,6 +67,16 @@ class Game:
     def get_puzzles(self) -> list[Puzzle]:
         return self.puzzles
 
+    def start_game(self):
+        if not self.started:
+            self.started = True
+            self._start_time = datetime.now()
+
+    def end_game(self):
+        if not self.ended and self.started:
+            self.ended = True
+            self._end_time = datetime.now()
+
     def get_puzzle_set(self) -> set[Puzzle]:
         return self._puzzle_set
 
@@ -115,8 +125,9 @@ class Game:
             'puzzles': [puzzle.to_dict() for puzzle in self.puzzles],
             'started': self.started,
             'ended': self.ended,
+            'target_time': self.get_target_time().isoformat(),
             'start_time': self._start_time.isoformat() if self._start_time else None,
-            'end_time': self._end_time.isoformat() if self._start_time else None,
+            'end_time': self._end_time.isoformat() if self._end_time else None,
         }
 
 
