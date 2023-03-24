@@ -26,6 +26,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 ADD . .
 
 FROM build as test
+WORKDIR /var/www/html
 CMD ["python", "-m", "pytest"]
 
 
@@ -34,16 +35,18 @@ CMD ["python", "verification.py"]
 
 
 FROM build as listener
-CMD ["python", "listener/listener.py"]
+WORKDIR /var/www/html
+CMD ["python", "-m", "listener.listener"]
 
 
 FROM build as server
+WORKDIR /var/www/html
 CMD ["python", "-m", "server.server"]
 
 
 FROM build as webserver
-
-RUN sed -i 's/#ServerName www.example.com:80/ServerName puzzle-webserver:80/g' /etc/apache2/httpd.conf
+WORKDIR /var/www/html
+RUN sed -i "s/#ServerName www.example.com:80/ServerName puzzle-webserver:80/g" /etc/apache2/httpd.conf
 
 STOPSIGNAL SIGWINCH
 CMD ["/usr/sbin/httpd", "-D", "FOREGROUND", "-f", "/etc/apache2/httpd.conf"]

@@ -1,4 +1,7 @@
-from sqlalchemy import Column, Integer, String, Table, JSON, ForeignKey
+import uuid
+from typing import Optional
+
+from sqlalchemy import Column, Integer, String, Table, JSON, ForeignKey, UUID
 from sqlalchemy.orm import relationship
 
 from data import mapper_registry
@@ -10,6 +13,7 @@ class PuzzleConfig:
             puzzle_reference: str,
             definition: dict,
             setup: dict,
+            puzzle_code: str = 'DEFAULT'
     ):
         if definition is None or setup is None:
             raise ValueError('Puzzle definition and setup are required attributes')
@@ -27,6 +31,7 @@ puzzle_config_table = Table(
     mapper_registry.metadata,
 
     Column('puzzle_config_id', Integer, primary_key=True),
+    Column('puzzle_code', String(32), nullable=False, default='DEFAULT'),
     Column('game_config_id', Integer, ForeignKey('game_config.game_config_id')),
     Column('puzzle_reference', String(255), key='_puzzle_reference'),
     Column('definition', JSON),

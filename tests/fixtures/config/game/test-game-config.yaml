@@ -6,55 +6,56 @@ author: Jacob Tyler
 authorURL: https://jacob.tyler
 gameLicense: https://opensource.org/licenses/MIT
 gameURL: https://test.com
+countdownDuration: 60
 puzzles:
   - definition:
-      puzzleId: 8D75398A-2F8B-43E6-98D1-986294BA35E7
+      puzzleCode: 8D75398A
       name: Test Puzzle A
       solutionType: CODEWORD
     setup:
       prerequisites:
-        - A7FEA899-A7C6-4963-B7B5-0D07ABAB0623
-        - 2B3E4F5F-6A7B-4C8D-9A0B-C1D2E3F4A5B6
-        - 955ABA37-D4E6-4EDD-AD44-6AAF86C288D1
-        - 18963568-3CD3-4FBF-8D37-48A645798FA8
-        - 171A790C-766D-4D7F-B921-87B24AC700BB
+        - A7FEA899
+        - 2B3E4F5F
+        - 955ABA37
+        - 18963568B
+        - 171A790C
       interfaceMapping:
         - Key1
   - definition:
-      puzzleId: A7FEA899-A7C6-4963-B7B5-0D07ABAB0623
+      puzzleCode: A7FEA899
       name: Test Puzzle B
       solutionType: GPIO
     setup:
       prerequisites:
-        - 2B3E4F5F-6A7B-4C8D-9A0B-C1D2E3F4A5B6
+        - 2B3E4F5F
   - definition:
-      puzzleId: 2B3E4F5F-6A7B-4C8D-9A0B-C1D2E3F4A5B6
+      puzzleCode: 2B3E4F5F
       name: Test Puzzle C
       solutionType: GPIO
     setup:
       prerequisites:
-        - 955ABA37-D4E6-4EDD-AD44-6AAF86C288D1
+        - 955ABA37
   - definition:
-      puzzleId: 955ABA37-D4E6-4EDD-AD44-6AAF86C288D1
+      puzzleCode: 955ABA37
       name: Test Puzzle D
       solutionType: CODEWORD
     setup:
       prerequisites:
-        - 18963568-3CD3-4FBF-8D37-48A645798FA8
-        - 171A790C-766D-4D7F-B921-87B24AC700BB
+        - 18963568B
+        - 171A790C
 
   - definition:
-      puzzleId: 171A790C-766D-4D7F-B921-87B24AC700BB
+      puzzleCode: 171A790C
       name: Test Puzzle E
       solutionType: CODEWORD
     setup:
       prerequisites:
-        - 955ABA37-D4E6-4EDD-AD44-6AAF86C288D1
+        - 955ABA37
 
   - definition:
-      puzzleId: 18963568-3CD3-4FBF-8D37-48A645798FA8
+      puzzleCode: 18963568B
       name: Test Puzzle F
       solutionType: CODEWORD
     setup:
       prerequisites:
-        - 171A790C-766D-4D7F-B921-87B24AC700BB
+        - 171A790C

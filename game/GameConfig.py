@@ -94,7 +94,7 @@ def import_game_config(config_reference: str) -> GameConfig:
         game_license=config['gameLicense'],
         game_url=config['gameURL'],
         puzzles=config['puzzles'],
-        parameters=parameters
+        parameters=parameters,
     )
 
 

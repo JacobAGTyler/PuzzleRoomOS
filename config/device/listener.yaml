@@ -1,0 +1,5 @@
+---
+name: Docker Listener
+topic: events
+isDatabase: false
+interfaces: []

@@ -6,7 +6,17 @@ description: Game for Sixers & Seconders 2023
 gameLicense: https://opensource.org/licenses/MIT
 gameURL: https://lbdscouts.org.uk/sixers2023
 authorURL: https://jacobtyler.co.uk
-parameters:
-  countdownDuration: 50
-puzzles: []
+countdownDuration: 50
+puzzles:
+  - definition:
+      puzzleCode: Scales
+      name: Scales
+      solutionType: CODEWORD
+    setup:
+      prerequisites:
+        - A7FEA899-A7C6-4963-B7B5-0D07ABAB0623
+      interfaceMapping:
+        - Key1
+      solutionSet:
+        - RADAR
 
