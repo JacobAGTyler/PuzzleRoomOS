@@ -22,5 +22,5 @@ flowchart TD
     E --> DL{Attempt Successful}
     DL -->|Successful| DA(Trigger Conversion)
     DL -->|Unsuccessful| Z1((END))
-    DA -->|Trigger Event| K2
+    DA -->|Puzzle Solve Event| K2
 ```

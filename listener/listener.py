@@ -31,6 +31,7 @@ def increase_wait():
 
 device: Device = instantiate_device()
 
+# Initialise Device
 do_loop = True
 while do_loop:
     try:
@@ -40,6 +41,7 @@ while do_loop:
         if not increase_wait():
             do_loop = False
 
+# Listen for events
 do_loop = True
 while do_loop:
     try:

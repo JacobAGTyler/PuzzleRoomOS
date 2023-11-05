@@ -5,7 +5,7 @@ from game.PuzzleConfig import PuzzleConfig
 
 class TestPuzzleConfig:
     def test_puzzle_config_init(self):
-        puzzle_config = PuzzleConfig('TestName', {'definition': {}}, {'setup': {}})
+        puzzle_config = PuzzleConfig('TestName', {'definition': {}}, {'setup': {}}, 'TestCode')
         assert isinstance(puzzle_config, PuzzleConfig)
         assert puzzle_config.get_reference() == 'TestName'
 

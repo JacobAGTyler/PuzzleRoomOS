@@ -1,28 +1,7 @@
-from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, String, Table, JSON
 from typing import Optional
 
 from game.PuzzleConfig import PuzzleConfig
-from data import mapper_registry
 from utilities.config import ConfigType, import_config
-
-
-game_config_table = Table(
-    'game_config',
-    mapper_registry.metadata,
-
-    Column('game_config_id', Integer, primary_key=True),
-    Column('config_reference', String(255)),
-    Column('name', String(255), key='_name'),
-    Column('version', String(255), key='_version'),
-    Column('description', String(255)),
-    Column('author', String(255)),
-    Column('author_url', String(255)),
-    Column('game_license', String(255)),
-    Column('game_url', String(255)),
-    Column('parameters', JSON),
-    Column('duration_minutes', Integer),
-)
 
 
 class GameConfig:
@@ -52,7 +31,7 @@ class GameConfig:
         self.duration_minutes = duration_minutes
         self.parameters = parameters
 
-        self.puzzle_configs = []
+        self.puzzle_configs: Optional[list[PuzzleConfig]] = []
 
         if puzzles is not None:
             for puzzle in puzzles:
@@ -96,9 +75,3 @@ def import_game_config(config_reference: str) -> GameConfig:
         puzzles=config['puzzles'],
         parameters=parameters,
     )
-
-
-mapper_registry.map_imperatively(GameConfig, game_config_table, properties={
-    'games': relationship('Game', back_populates="game_config"),
-    'puzzle_configs': relationship('PuzzleConfig', back_populates="game_config"),
-})

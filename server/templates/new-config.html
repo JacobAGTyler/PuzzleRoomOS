@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ title }}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='scss/base.css') }}">
+    <script src="{{ url_for('static', filename='mermaid.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='jquery-3.6.0.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Attach an event listener to the form submission event
+            $('#new-game-form').submit(function (event) {
+                // Prevent the default form submission behavior
+                event.preventDefault();
+
+                // Serialize the form data into a query string
+                var formData = $(this).serialize();
+
+                // Send an AJAX request to the API endpoint
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/games',
+                    data: formData,
+                    success: function (response) {
+                        // Handle the API response here
+                        console.log(response);
+                        $("#new-game-form").trigger("reset");
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle any errors that occur during the API call
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+<div class="container-fluid px-4">
+    <div id="content">
+        <div class="container px-5">
+            <div class="row gx-5">
+                <h1>Puzzle Room!</h1>
+            </div>
+            <div class="row gx-5">
+                <div class="col">
+                    <div class="card bg-success-subtle">
+                        <div class="card-header">
+                            <h3>Attempt a Solution</h3>
+                        </div>
+                        <div class="card-body text-center text-lg-center">
+                            <br/>
+                            <form id="new-game-form">
+                                <input type="hidden" name="game_config_id" value="{{ game_config_id }}">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="game_config_code">Game Config Code:</label>
+                                    <input class="form-control"
+                                           id="game_config_code" type="text"
+                                           name="game_config_code" placeholder="Enter game config code...">
+                                    <button class="btn btn-secondary" type="submit">Submit</button>
+                                </div>
+                            </form>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

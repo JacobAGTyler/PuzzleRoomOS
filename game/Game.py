@@ -1,51 +1,41 @@
 import networkx as nx
 
-from sqlalchemy.orm import relationship
-from sqlalchemy.orm.session import Session
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, Table, ForeignKey
-
 from typing import Optional, Union
 from datetime import datetime, timedelta
 
-from data.database import retrieve_entity, get_connection, get_engine
-from game.GameConfig import GameConfig, import_game_config
+from game.GameConfig import GameConfig
 from game.Puzzle import Puzzle
-
-from data import mapper_registry
-from game.PuzzleConfig import PuzzleConfig
-
-game_table = Table(
-    'game',
-    mapper_registry.metadata,
-
-    Column('game_id', Integer, primary_key=True),
-    Column('game_reference', String(255), key='_game_reference'),
-    Column('game_config_id', Integer, ForeignKey('game_config.game_config_id')),
-    Column('started', Boolean),
-    Column('ended', Boolean),
-    Column('start_time', DateTime, nullable=True, key='_start_time'),
-    Column('end_time', DateTime, nullable=True, key='_end_time'),
-)
 
 
 class Game:
-    def __init__(self, game_reference: str, game_config: GameConfig):
+    def __init__(
+            self,
+            game_reference: str,
+            game_config: GameConfig,
+            puzzles: Optional[list[Puzzle]] = None,
+            started: bool = False,
+            ended: bool = False,
+            start_time: Optional[datetime] = None,
+            end_time: Optional[datetime] = None,
+            game_id: Optional[int] = None,
+    ):
         if not game_reference or len(game_reference) < 5:
             raise ValueError("Game reference cannot be empty & must be at least 5 characters long")
 
         if not game_config or not isinstance(game_config, GameConfig):
             raise ValueError("Game config cannot be empty & must be of type GameConfig")
 
+        self.game_id: int = game_id
         self._game_reference: str = game_reference
         self.game_config: GameConfig = game_config
 
-        self.puzzles: list[Puzzle] = []
-        self._puzzle_set: set[Puzzle] = set()
+        self.puzzles: list[Puzzle] = puzzles
+        self._puzzle_set: set[Puzzle] = set(self.puzzles)
 
-        self.started = False
-        self.ended = False
-        self._start_time: Optional[datetime] = None
-        self._end_time: Optional[datetime] = None
+        self.started = started
+        self.ended = ended
+        self._start_time: Optional[datetime] = start_time
+        self._end_time: Optional[datetime] = end_time
 
     def get_puzzle(self, puzzle_ref: str) -> Optional[Puzzle]:
         for puzzle in self._puzzle_set:
@@ -53,6 +43,27 @@ class Game:
                 return puzzle
 
         return None
+
+    def get_puzzles(self) -> list[Puzzle]:
+        return self.puzzles
+
+    def get_id(self) -> int:
+        return self.game_id
+
+    def get_puzzle_set(self) -> set[Puzzle]:
+        return self._puzzle_set
+
+    def get_target_time(self) -> datetime:
+        if self._start_time is None:
+            return datetime.now() + timedelta(minutes=self.game_config.duration_minutes)
+
+        return self._start_time + timedelta(minutes=self.game_config.duration_minutes)
+
+    def get_reference(self) -> str:
+        return self._game_reference
+
+    def get_puzzle_count(self) -> int:
+        return len(self.puzzles)
 
     def add_puzzle(self, puzzle: Puzzle):
         if not isinstance(puzzle, Puzzle):
@@ -62,9 +73,6 @@ class Game:
 
         if puzzle not in self.puzzles:
             self.puzzles.append(puzzle)
-
-    def get_puzzles(self) -> list[Puzzle]:
-        return self.puzzles
 
     def start_game(self):
         if not self.started:
@@ -82,14 +90,15 @@ class Game:
 
         return False
 
-    def get_puzzle_set(self) -> set[Puzzle]:
-        return self._puzzle_set
+    def evaluate_trigger(self, trigger: str) -> Union[bool, set[str]]:
+        if not self.started:
+            return False
 
-    def get_target_time(self) -> datetime:
-        if self._start_time is None:
-            return datetime.now() + timedelta(minutes=self.game_config.duration_minutes)
+        for puzzle in self.puzzles:
+            if puzzle.evaluate_solution(trigger):
+                return puzzle.get_triggers()
 
-        return self._start_time + timedelta(minutes=self.game_config.duration_minutes)
+        return False
 
     def parse_puzzle_dependencies(self):
         puzzle_dependencies = nx.DiGraph()
@@ -116,11 +125,9 @@ class Game:
 
         return end_puzzles
 
-    def get_reference(self) -> str:
-        return self._game_reference
-
     def to_dict(self) -> dict:
         return {
+            'game_id': self.get_id(),
             'game_reference': self.get_reference(),
             'game_config': {
                 'config_reference': self.game_config.get_reference(),
@@ -134,26 +141,3 @@ class Game:
             'start_time': self._start_time.isoformat() if self._start_time else None,
             'end_time': self._end_time.isoformat() if self._end_time else None,
         }
-
-
-mapper_registry.map_imperatively(Game, game_table, properties={
-    'puzzles': relationship('Puzzle', back_populates="game"),
-    'game_config': relationship(GameConfig, back_populates='games'),
-    'events': relationship('Event', back_populates='game'),
-})
-
-
-def make_new_game(game_config_code: Union[int, str], session: Session = get_connection(get_engine())) -> Game:
-    if type(game_config_code) == str:
-        game_config: GameConfig = import_game_config(game_config_code)
-    else:
-        game_config: GameConfig = retrieve_entity(game_config_code, GameConfig, session)
-
-    game = Game(game_config.get_reference(), game_config)
-
-    puzzle_config: PuzzleConfig
-    for puzzle_config in game_config.get_puzzle_configs():
-        puzzle = Puzzle(puzzle_config=puzzle_config, puzzle_reference=puzzle_config.get_reference())
-        game.add_puzzle(puzzle)
-
-    return game

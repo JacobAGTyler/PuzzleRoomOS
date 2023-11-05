@@ -26,7 +26,7 @@
     "puzzleCode": {
       "description": "The alphanumeric unique identifier for a puzzle.",
       "type": "string",
-      "pattern": "^[0-9a-fA-F]+$"
+      "pattern": "^[0-9a-zA-Z]+$"
     },
     "solutionType": {
       "description": "The type of solution for a puzzle.",

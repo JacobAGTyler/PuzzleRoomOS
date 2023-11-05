@@ -16,7 +16,10 @@ class GamesResource(Resource):
         return [game.to_dict() for game in get_game_list()]
 
     def post(self):
-        game_data: dict = request.json
+        if request.is_json:
+            game_data: dict = request.json
+        else:
+            game_data: dict = request.form
 
         if 'game_config_code' in game_data.keys() and type(game_data['game_config_code']) is str:
             game_config_code = game_data['game_config_code']

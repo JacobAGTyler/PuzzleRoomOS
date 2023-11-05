@@ -27,11 +27,11 @@ interfaces:
     relay: 6
     pin_number: 20
     relay_on_activate: false
-  - name: Pipe Lock
+  - name: PipeLock
     relay: 7
     pin_number: 16
     relay_on_activate: true
-  - name: Lid Locks
+  - name: LidLocks
     relay: 8
     pin_number: 12
     relay_on_activate: true

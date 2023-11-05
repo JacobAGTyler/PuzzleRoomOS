@@ -17,6 +17,7 @@ class ConfigType(Enum):
 
 def import_config(config_reference: str, config_type: ConfigType) -> dict:
     config_path = f'{base_path}{config_type.value.lower()}{os.path.sep}{config_reference}.yaml'
+    schema_path = None
 
     if not os.path.exists(config_path):
         raise FileNotFoundError(f'Config file not found: {config_path}')

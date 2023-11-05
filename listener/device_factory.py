@@ -21,8 +21,12 @@ def instantiate_device(device_code: str = None):
         device = Device(device_config=device_config, device_code=device_code)
 
     for interface_config in device_config['interfaces']:
+        triggers = [interface_config['name']]
+        if 'additionalTriggers' in interface_config.keys():
+            triggers += interface_config['additionalTriggers']
+
         interface = Interface(
-            trigger_references=[],
+            trigger_references=triggers,
             config=interface_config
         )
         device.add_interface(interface)

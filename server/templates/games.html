@@ -10,21 +10,23 @@
                     <th scope="col">ID</th>
                     <th scope="col">Actions</th>
                     <th scope="col">Game Reference</th>
-                    <th scope="col">Game Name</th>
-                    <th scope="col">Game Version</th>
+                    <th scope="col">Started</th>
+                    <th scope="col">Ended</th>
+                    <th scope="col">Puzzles</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for game in games %}
                 <tr>
-                    <td>{{ game.0.game_id }}</td>
+                    <td>{{ game.game_id }}</td>
                     <td>
-                        <a class="btn btn-outline-success" href="/play/{{ game.0.game_id }}" role="button">Play</a>
-                        <a class="btn btn-outline-primary" href="/game/{{ game.0.game_id }}" role="button">View</a>
+                        <a class="btn btn-outline-success" href="/play/{{ game.game_id }}" role="button">Play</a>
+                        <a class="btn btn-outline-primary" href="/game/{{ game.game_id }}" role="button">View</a>
                     </td>
-                    <td>{{ game.0.game_ref }}</td>
-                    <td>{{ game.0.game_config.name }}</td>
-                    <td>{{ game.0.game_config.version }}</td>
+                    <td>{{ game.get_reference() }}</td>
+                    <td>{{ game.started }}</td>
+                    <td>{{ game.ended }}</td>
+                    <td>{{ game.get_puzzle_count() }}</td>
                 </tr>
                 {% endfor %}
                 </tbody>

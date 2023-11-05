@@ -45,6 +45,14 @@ class TestImportGameConfig:
 
         assert game_config.get_puzzle_configs()[0].get_reference() == 'Test Puzzle A'
 
+    def test_game_config_init_parameters(self, mock_config_reference, monkeypatch):
+        monkeypatch.setattr('utilities.config.base_path', self.fixture_path)
+        game_config = import_game_config(mock_config_reference)
+        assert isinstance(game_config, GameConfig)
+
+        assert game_config.parameters is not None
+        assert game_config.parameters['test_parameter'] == 'test_value'
+
     def test_game_config_init_fail_reference(self):
         with pytest.raises(FileNotFoundError, match="Config file not found:"):
             _ = import_game_config("not-a-config")

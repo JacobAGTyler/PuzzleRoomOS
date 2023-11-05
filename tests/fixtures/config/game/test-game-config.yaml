@@ -7,6 +7,8 @@ authorURL: https://jacob.tyler
 gameLicense: https://opensource.org/licenses/MIT
 gameURL: https://test.com
 countdownDuration: 60
+parameters:
+  test_parameter: test_value
 puzzles:
   - definition:
       puzzleCode: 8D75398A

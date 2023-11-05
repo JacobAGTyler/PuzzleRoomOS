@@ -1,10 +1,11 @@
 from flask import Flask, render_template
 from flask_restful import Api
 
-from data.game_list import get_game_list, get_game, new_game
+from data.game_list import get_game_list, get_game, new_game, get_game_config_list, get_game_config
 from server.GameResource import GameResource
 from server.GamesResource import GamesResource
 from server.AttemptResource import AttemptResource
+from server.DiagnosticResource import DiagnosticResource
 
 
 def create_app():
@@ -13,19 +14,33 @@ def create_app():
     api.add_resource(GameResource, '/api/game/<string:game_id>')
     api.add_resource(AttemptResource, '/api/attempt')
     api.add_resource(GamesResource, '/api/games')
+    api.add_resource(DiagnosticResource, '/api/diagnostic')
 
     @new_app.route('/')
     def index():
         return render_template('index.html', title='Puzzle Room OS')
 
+    @new_app.route('/game-config/<game_config_id>')
+    def view_game_config(game_config_id):
+        game_config = get_game_config(game_config_id)
+        # graph = build_graph(game)
+
+        return render_template('config.html', title='Puzzle Room OS', game_config=game_config)
+
+    @new_app.route('/game-configs')
+    def game_configs():
+        game_config_list = get_game_config_list()
+        return render_template('configs.html', title='Puzzle Room OS', game_configs=game_config_list)
+
     @new_app.route('/games')
     def games():
-        games = get_game_list()
-        return render_template('games.html', title='Puzzle Room OS', games=games)
+        game_list = get_game_list()
+        return render_template('games.html', title='Puzzle Room OS', games=game_list)
 
-    @new_app.route('/new-game/<game_config_code>')
-    def add_new_game(game_config_code):
-        return new_game(game_config_code)
+    @new_app.route('/new-game/<game_config_id>')
+    @new_app.route('/new-game')
+    def add_new_game(game_config_id=None):
+        return render_template('new-config.html', title='Puzzle Room OS', game_config_id=game_config_id)
 
     @new_app.route('/game/<game_id>')
     def view_game(game_id):

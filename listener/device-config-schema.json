@@ -34,7 +34,8 @@
         ],
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9]+$"
           },
           "relay": {
             "type": "integer"
@@ -44,6 +45,14 @@
           },
           "relay_on_activate": {
             "type": "boolean"
+          },
+          "additionalTriggers": {
+            "type": "array",
+            "additionalItems": false,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]+$"
+            }
           }
         }
       }

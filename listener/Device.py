@@ -1,10 +1,7 @@
-from typing import Optional
-
 from kafka import KafkaConsumer
 
 from listener.Interface import Interface
 from listener.Event import Event, EventType, decode_message_event
-from game.Game import Game
 
 
 class Device:
@@ -16,10 +13,9 @@ class Device:
         self._trigger_references: list[str] = []
         self.is_database_device = False
 
-    def initialise(self, game: Optional[Game] = None):
+    def initialise(self):
         initialisation_event = Event(
             event_type=EventType.DEVICE_INITIALISATION,
-            game=game,
             event_data={
                 'device_code': self.device_code,
                 'device_config': self.device_config,
@@ -29,21 +25,20 @@ class Device:
         initialisation_event.publish()
 
     def add_interface(self, interface: Interface):
-        print(interface.get_trigger_references())
         self._trigger_references += interface.get_trigger_references()
         self._interfaces.append(interface)
 
-    def process_message(self, event: Event) -> None:
+    def process_message(self, event: Event) -> bool:
         if event.get_type() == EventType.GAME_END:
             for interface in self._interfaces:
                 interface.deactivate()
-                return
+                return True
 
-        if event.get_type() == EventType.GAME_START:
+        if event.get_type() == EventType.PUZZLE_SOLVE:
             trigger = event.get_trigger_value()
 
             if trigger is None:
-                return
+                return False
 
             if trigger in self._trigger_references:
                 interface: Interface

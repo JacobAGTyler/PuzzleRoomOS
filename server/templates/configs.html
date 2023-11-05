@@ -1,0 +1,37 @@
+{% extends "layout/base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Config Name</th>
+                    <th scope="col">Actions</th>
+                    <th scope="col">Config Reference</th>
+                    <th scope="col">Version</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Duration Minutes</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for game_config in game_configs %}
+                <tr>
+                    <td>{{ game_config.get_name() }}</td>
+                    <td>
+                        <a class="btn btn-outline-success" href="/play/{{ game_config.game_config_id }}" role="button">Play</a>
+                        <a class="btn btn-outline-primary" href="/game-config/{{ game_config.game_config_id }}" role="button">View</a>
+                    </td>
+                    <td>{{ game_config.get_reference() }}</td>
+                    <td>{{ game_config.get_version() }}</td>
+                    <td>{{ game_config.description }}</td>
+                    <td>{{ game_config.duration_minutes }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

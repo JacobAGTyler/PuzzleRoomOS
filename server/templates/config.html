@@ -1,0 +1,28 @@
+{% extends "layout/base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title">Game Config Name: {{ game_config.get_name() }}</h5>
+                        </div>
+                        <div class="col text-end">
+                            <span class="badge bg-primary">Game Config ID: {{ game_config.game_config_id }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Game Config:</strong> {{ game_config.get_name() }}</li>
+                        <li class="list-group-item"><strong>Config Version:</strong> {{ game_config.get_version() }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
