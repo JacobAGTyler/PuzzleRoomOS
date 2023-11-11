@@ -1,8 +1,8 @@
 import socket
 from utilities.config import import_config, ConfigType
 
-from listener.Device import Device
-from listener.DatabaseDevice import DatabaseDevice
+from listener.device import Device
+from listener.database_device import DatabaseDevice
 from listener.Interface import Interface
 
 

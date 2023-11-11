@@ -1,6 +1,6 @@
 from flask import request
 from flask_restful import Resource
-from listener.DiagnosticHandler import DiagnosticHandler
+from listener.diagnostic_handler import DiagnosticHandler
 
 
 class DiagnosticResource(Resource):

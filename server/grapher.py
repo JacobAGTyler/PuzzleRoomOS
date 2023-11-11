@@ -3,8 +3,8 @@ import markdown
 from enum import Enum
 from typing import Optional
 
-from game.Puzzle import Puzzle
-from game.Game import Game
+from game.puzzle import Puzzle
+from game.game import Game
 
 
 class GraphDirection(Enum):

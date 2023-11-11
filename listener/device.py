@@ -1,7 +1,7 @@
 from kafka import KafkaConsumer
 
 from listener.Interface import Interface
-from listener.Event import Event, EventType, decode_message_event
+from listener.event import Event, EventType, decode_message_event
 
 
 class Device:

@@ -2,8 +2,8 @@ import datetime
 import uuid
 from typing import Optional
 
-from listener.Event import Event, EventType
-from game.Game import Game
+from listener.event import Event, EventType
+from game.game import Game
 
 
 class GameEvent(Event):

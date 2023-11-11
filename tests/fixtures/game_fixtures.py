@@ -6,9 +6,9 @@ from sqlalchemy.orm.collections import __set
 from sqlalchemy.orm.attributes import InstrumentedAttribute
 
 from unittest.mock import Mock
-from game.Puzzle import Puzzle
-from game.Game import Game
-from game.GameConfig import GameConfig
+from game.puzzle import Puzzle
+from game.game import Game
+from game.game_config import GameConfig
 
 from tests.fixtures.puzzle_fixtures import pc1, pc2, pc3, pc4, pc5, built_puzzle
 

@@ -3,8 +3,8 @@ import networkx as nx
 from typing import Optional, Union
 from datetime import datetime, timedelta
 
-from game.GameConfig import GameConfig
-from game.Puzzle import Puzzle
+from game.game_config import GameConfig
+from game.puzzle import Puzzle
 
 
 class Game:

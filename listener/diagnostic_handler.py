@@ -2,7 +2,7 @@ import logging
 import uuid
 from typing import Optional
 
-from listener.Event import Event, EventType
+from listener.event import Event, EventType
 
 
 class DiagnosticHandler:

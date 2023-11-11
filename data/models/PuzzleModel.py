@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 
 from data import mapper_registry
 
-from game.Puzzle import Puzzle
+from game.puzzle import Puzzle
 
 
 puzzle_table = Table(

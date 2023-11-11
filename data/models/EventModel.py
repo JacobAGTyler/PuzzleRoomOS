@@ -3,9 +3,9 @@ from sqlalchemy.orm import relationship
 
 from data import mapper_registry
 
-from game.Game import Game
-from listener.Event import EventType, Event
-from listener.GameEvent import GameEvent
+from game.game import Game
+from listener.event import EventType, Event
+from listener.game_event import GameEvent
 
 
 event_table = Table(

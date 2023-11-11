@@ -2,7 +2,7 @@ import unittest.mock
 
 import pytest
 
-from listener.Device import Device
+from listener.device import Device
 from listener.device_factory import instantiate_device
 from listener.Interface import Interface
 
@@ -35,7 +35,7 @@ class TestDevice:
 
     @pytest.mark.usefixtures('built_device', 'mock_interface', 'mock_event')
     def test_device_initialisation(self, monkeypatch, built_device, mock_interface, mock_event: unittest.mock.Mock):
-        monkeypatch.setattr('listener.Device.Event', lambda *args, **kwargs: mock_event)
+        monkeypatch.setattr('listener.device.Event', lambda *args, **kwargs: mock_event)
         built_device.initialise()
 
         assert mock_event.publish.called

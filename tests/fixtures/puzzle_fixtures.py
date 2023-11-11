@@ -5,8 +5,8 @@ from sqlalchemy.orm.attributes import InstrumentedAttribute
 
 from unittest.mock import Mock
 
-from game.Puzzle import Puzzle
-from game.PuzzleConfig import PuzzleConfig
+from game.puzzle import Puzzle
+from game.puzzle_config import PuzzleConfig
 
 pc1 = Mock(spec=PuzzleConfig)
 pc2 = Mock(spec=PuzzleConfig)

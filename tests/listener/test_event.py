@@ -2,7 +2,7 @@ import uuid
 
 import pytest
 
-from listener.Event import Event, EventType
+from listener.event import Event, EventType
 from tests.fixtures.game_fixtures import mock_game
 
 

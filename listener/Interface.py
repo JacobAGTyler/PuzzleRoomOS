@@ -1,6 +1,6 @@
 import gpiozero as g
 
-from listener.Event import Event, EventType
+from listener.event import Event, EventType
 
 
 def make_pin(pin_number: int, activate_high: bool) -> g.OutputDevice:

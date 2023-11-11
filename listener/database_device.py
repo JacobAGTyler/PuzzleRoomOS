@@ -5,12 +5,12 @@ import uuid
 from kafka import KafkaConsumer
 from sqlalchemy.orm import Session
 
-from game.Game import Game
-from listener.Device import Device
-from listener.Event import Event, EventType
-from listener.GameEvent import GameEvent
+from game.game import Game
+from listener.device import Device
+from listener.event import Event, EventType
+from listener.game_event import GameEvent
 from data.database import get_connection, get_engine, save_entity, retrieve_entity
-from listener.GameHandler import GameHandler
+from listener.game_handler import GameHandler
 
 
 class DatabaseDevice(Device):

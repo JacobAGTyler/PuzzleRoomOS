@@ -1,8 +1,8 @@
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, Table, ForeignKey
 from sqlalchemy.orm import relationship
 
-from game.Game import Game
-from game.GameConfig import GameConfig
+from game.game import Game
+from game.game_config import GameConfig
 
 from data import mapper_registry
 

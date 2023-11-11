@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from game.PuzzleConfig import PuzzleConfig
+from game.puzzle_config import PuzzleConfig
 
 
 class Puzzle:

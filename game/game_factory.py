@@ -3,11 +3,11 @@ from typing import Union
 from sqlalchemy.orm.session import Session
 
 from data.database import retrieve_entity, get_connection, get_engine
-from game.GameConfig import GameConfig, import_game_config
+from game.game_config import GameConfig, import_game_config
 
-from game.PuzzleConfig import PuzzleConfig
-from game.Game import Game
-from game.Puzzle import Puzzle
+from game.puzzle_config import PuzzleConfig
+from game.game import Game
+from game.puzzle import Puzzle
 
 
 def make_new_game(game_config_code: Union[int, str], session: Session = get_connection(get_engine())) -> Game:

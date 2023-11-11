@@ -2,10 +2,10 @@ from sqlalchemy import select, Row
 from sqlalchemy.orm import Session
 
 from data.database import get_connection, get_engine, retrieve_entity, retrieve_all
-from game.Game import Game
-from listener.GameEvent import GameEvent
-from game.Puzzle import Puzzle
-from game.GameConfig import GameConfig, import_game_config
+from game.game import Game
+from listener.game_event import GameEvent
+from game.puzzle import Puzzle
+from game.game_config import GameConfig, import_game_config
 
 engine = get_engine()
 

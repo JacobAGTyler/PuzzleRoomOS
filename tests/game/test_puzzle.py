@@ -1,6 +1,6 @@
 import pytest
 
-from game.Puzzle import Puzzle
+from game.puzzle import Puzzle
 
 from tests.fixtures.puzzle_fixtures import puzzle_test_data
 from tests.fixtures.database_fixtures import db_session

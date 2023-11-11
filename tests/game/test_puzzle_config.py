@@ -1,6 +1,6 @@
 import pytest
 
-from game.PuzzleConfig import PuzzleConfig
+from game.puzzle_config import PuzzleConfig
 
 
 class TestPuzzleConfig:

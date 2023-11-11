@@ -4,8 +4,8 @@ import pytest
 from unittest.mock import Mock
 from tests.fixtures import mock_game_config, mock_puzzle_list, built_game, mock_puzzle
 
-from game.Game import Game
-from game.Puzzle import Puzzle
+from game.game import Game
+from game.puzzle import Puzzle
 
 
 class TestGame:

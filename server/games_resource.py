@@ -4,7 +4,7 @@ from flask import request
 from flask_restful import Resource
 
 from data.game_list import get_game_list
-from listener.GameHandler import make_new_game_handler, GameHandler
+from listener.game_handler import make_new_game_handler, GameHandler
 
 
 class GamesResource(Resource):

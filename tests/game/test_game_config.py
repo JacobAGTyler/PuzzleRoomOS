@@ -1,7 +1,7 @@
 import pytest
 
 from fastjsonschema.exceptions import JsonSchemaValueException
-from game.GameConfig import GameConfig, import_game_config
+from game.game_config import GameConfig, import_game_config
 
 
 class TestGameConfig:

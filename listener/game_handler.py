@@ -2,11 +2,11 @@ from typing import Union
 
 from sqlalchemy.orm import Session
 
-from game.Game import Game
+from game.game import Game
 from game.game_factory import make_new_game
 from data.database import save_entity, get_engine, get_connection
-from listener.Event import EventType
-from listener.GameEvent import GameEvent
+from listener.event import EventType
+from listener.game_event import GameEvent
 
 
 class GameHandler:

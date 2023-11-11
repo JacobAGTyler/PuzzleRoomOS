@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.engine import Engine
 
 from tests.fixtures import mock_engine, built_game_config
-from game.GameConfig import GameConfig
+from game.game_config import GameConfig
 
 from data.database import save_entity, get_engine, get_connection
 from data.models import PuzzleConfigModel, PuzzleModel, GameConfigModel, GameModel, EventModel

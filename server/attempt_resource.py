@@ -1,8 +1,6 @@
-from typing import Optional
-
 from flask import request
 from flask_restful import Resource
-from listener.AttemptHandler import AttemptHandler
+from listener.attempt_handler import AttemptHandler
 
 
 class AttemptResource(Resource):

@@ -1,11 +1,11 @@
 from flask import Flask, render_template
 from flask_restful import Api
 
-from data.game_list import get_game_list, get_game, new_game, get_game_config_list, get_game_config
-from server.GameResource import GameResource
-from server.GamesResource import GamesResource
-from server.AttemptResource import AttemptResource
-from server.DiagnosticResource import DiagnosticResource
+from data.game_list import get_game_list, get_game, get_game_config_list, get_game_config
+from server.game_resource import GameResource
+from server.games_resource import GamesResource
+from server.attempt_resource import AttemptResource
+from server.diagnostic_resource import DiagnosticResource
 
 
 def create_app():

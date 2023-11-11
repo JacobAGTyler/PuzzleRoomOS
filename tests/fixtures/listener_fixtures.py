@@ -3,8 +3,8 @@ import pytest
 from unittest.mock import Mock
 
 from listener.Interface import Interface
-from listener.Device import Device
-from listener.Event import Event
+from listener.device import Device
+from listener.event import Event
 
 
 @pytest.fixture

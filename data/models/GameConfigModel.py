@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, String, Table, JSON
 
 from data import mapper_registry
 
-from game.GameConfig import GameConfig
+from game.game_config import GameConfig
 
 
 game_config_table = Table(

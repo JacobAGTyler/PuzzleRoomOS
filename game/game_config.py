@@ -1,6 +1,6 @@
 from typing import Optional
 
-from game.PuzzleConfig import PuzzleConfig
+from game.puzzle_config import PuzzleConfig
 from utilities.config import ConfigType, import_config
 
 
