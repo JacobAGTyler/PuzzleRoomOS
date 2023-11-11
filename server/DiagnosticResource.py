@@ -16,13 +16,13 @@ class DiagnosticResource(Resource):
         if diagnostic_data is None:
             return {'message': 'No trigger data provided'}, 400
 
-        if 'trigger_text' not in diagnostic_data.keys():
+        if 'diagnostic_text' not in diagnostic_data.keys():
             return {'message': 'No trigger text provided'}, 400
 
         game_key = diagnostic_data['game_id'] if 'game_id' in diagnostic_data.keys() else None
 
         result = self.handler.make_diagnostic(
-            trigger_text=diagnostic_data['trigger_text'],
+            diagnostic_text=diagnostic_data['diagnostic_text'],
             game_key=game_key
         )
 

@@ -53,6 +53,10 @@ def create_app():
     def play_game(game_id):
         return render_template('play.html', title='Puzzle Room OS', game=get_game(game_id))
 
+    @new_app.route('/diagnostic')
+    def diagnostic():
+        return render_template('diagnostic.html', title='Puzzle Room OS', games=get_game_list())
+
     return new_app
 
 
