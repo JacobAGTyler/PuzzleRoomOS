@@ -1,6 +1,6 @@
 name: Key Listener
 topic: events
-brokerConnectionString: '192.168.1.15:29092'
+brokerConnectionString: '192.168.1.15:29092,192.168.1.15:9092,192.168.1.15:9101'
 isDatabase: true
 interfaces:
   - name: Key1
