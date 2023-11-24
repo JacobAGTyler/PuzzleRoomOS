@@ -52,7 +52,6 @@
       apt:
         name:
           - ansible
-          - ansible-playbook
         state: latest
         update_cache: true
 
