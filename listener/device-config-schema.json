@@ -5,6 +5,7 @@
   "additionalProperties": false,
   "required": [
     "name",
+    "brokerConnectionString",
     "interfaces",
     "topic",
     "isDatabase"
@@ -14,6 +15,9 @@
       "type": "string"
     },
     "topic": {
+      "type": "string"
+    },
+    "brokerConnectionString": {
       "type": "string"
     },
     "isDatabase": {

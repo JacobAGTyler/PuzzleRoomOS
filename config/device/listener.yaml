@@ -1,5 +1,6 @@
 ---
 name: Docker Listener
+brokerConnectionString: localhost:29092
 topic: events
 isDatabase: false
 interfaces: []

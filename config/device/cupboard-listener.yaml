@@ -1,38 +1,38 @@
 ---
-name: Key Listener
-brokerConnectionString: '192.168.1.15:29092'
+name: Cupboard Listener
 topic: events
+brokerConnectionString: 192.168.1.15:29092
 isDatabase: false
 interfaces:
-  - name: Key1
+  - name: Unused
     relay: 1
     pin_number: 18
     relay_on_activate: false
-  - name: Key2
+  - name: Unused
     relay: 2
     pin_number: 24
     relay_on_activate: false
-  - name: Key3
+  - name: Unused
     relay: 3
     pin_number: 23
     relay_on_activate: false
-  - name: Key4
+  - name: Unused
     relay: 4
     pin_number: 25
     relay_on_activate: false
-  - name: Key5
+  - name: Unused
     relay: 5
     pin_number: 21
     relay_on_activate: false
-  - name: Key6
+  - name: LeftCupboard
     relay: 6
-    pin_number: 20
+    pin_number: 13
     relay_on_activate: false
   - name: PipeLock
     relay: 7
     pin_number: 16
-    relay_on_activate: true
-  - name: LidLocks
+    relay_on_activate: false
+  - name: RightCupboard
     relay: 8
-    pin_number: 12
-    relay_on_activate: true
+    pin_number: 26
+    relay_on_activate: false

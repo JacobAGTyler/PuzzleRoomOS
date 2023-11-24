@@ -8,12 +8,15 @@ class Device:
     def __init__(self, device_config: dict, device_code: str):
         self.device_code = device_code
         self.device_config = device_config
+        self._broker_string = device_config['brokerConnectionString']
         self._topic = device_config['topic']
         self._interfaces = []
         self._trigger_references: list[str] = []
         self.is_database_device = False
 
     def initialise(self):
+        print(f'Connecting to {self._broker_string}...')
+
         initialisation_event = Event(
             event_type=EventType.DEVICE_INITIALISATION,
             event_data={
@@ -47,14 +50,17 @@ class Device:
                         interface.activate()
 
     def listen(self):
+        print(f'Connecting to {self._broker_string}...')
+
         consumer = KafkaConsumer(
             self._topic,
             client_id=self.device_code,
-            value_deserializer=decode_message_event
+            value_deserializer=decode_message_event,
+            bootstrap_servers=self._broker_string
         )
 
         if consumer.bootstrap_connected():
-            print('Connected to Kafka.')
+            print(f'Listening to topic {self._topic} on {self._broker_string}.')
 
         for message in consumer:
             self.process_message(message.value)

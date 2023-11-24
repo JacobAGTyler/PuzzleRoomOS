@@ -5,7 +5,11 @@ from listener.event import Event, EventType
 
 def make_pin(pin_number: int, activate_high: bool) -> g.OutputDevice:
     gpio_string = f'GPIO{pin_number}'
-    pin = g.OutputDevice(gpio_string, active_high=activate_high, initial_value=False)
+    pin = g.OutputDevice(
+        gpio_string,
+        active_high=activate_high,
+        initial_value=False
+    )
     return pin
 
 
@@ -13,7 +17,6 @@ class Interface:
     def __init__(self, trigger_references: list[str], config: dict):
         self.name = config['name']
         self._trigger_references = trigger_references
-        # self._actions = actions
 
         pin = int(config['pin_number'])
         activate_high = bool(config['relay_on_activate'])

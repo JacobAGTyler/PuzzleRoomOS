@@ -116,7 +116,7 @@ subnet 192.168.10.0 netmask 255.255.255.0 {
  option broadcast-address 192.168.10.255;
  option routers 192.168.10.1;
  default-lease-time 600;
- max-lease-time 7200;
- option domain-name "puzzle-network";
- option domain-name-servers 192.168.10.1 8.8.8.8 8.8.4.4;
+ max-lease-time 3600;
+{# option domain-name "puzzle-network"#}
+ option domain-name-servers 192.168.10.1;
 }

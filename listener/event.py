@@ -35,6 +35,7 @@ class Event:
         self._event_id = event_id
         self._event_time = event_time
         self._published = published
+        self._broker_string = '192.168.1.15:29092'
 
         if not event_type or not isinstance(event_type, EventType):
             raise ValueError("Event type cannot be empty & must be of type EventType")
@@ -48,7 +49,11 @@ class Event:
 
     def publish(self):
         if not self._published:
-            producer = KafkaProducer(batch_size=0, value_serializer=encode_message_event)
+            producer = KafkaProducer(
+                batch_size=0,
+                value_serializer=encode_message_event,
+                bootstrap_servers=self._broker_string
+            )
             pending_message = producer.send(topic='events', value=self)
             producer.flush()
             if pending_message.is_done:
