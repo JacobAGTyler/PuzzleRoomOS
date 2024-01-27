@@ -85,18 +85,18 @@
 #        state: latest
 #        update_cache: true
 
-#    - name: Install RaspberryPi GPIO Library
-#      apt:
-#        name: python3-rpi-lgpio
-#        state: latest
-#        update_cache: true
-#      when: ansible_distribution == "Ubuntu"
+    - name: Install RaspberryPi GPIO Library
+      apt:
+        name: python3-rpi.gpio
+        state: latest
+        update_cache: true
+      when: ansible_distribution == "Ubuntu"
 
-#    - name: Install GPIO Zero
-#      apt:
-#        name: python3-gpiozero
-#        state: latest
-#        update_cache: true
+    - name: Install GPIO Zero
+      apt:
+        name: python3-gpiozero
+        state: latest
+        update_cache: true
 
     - name: Install Dependencies
       pip:

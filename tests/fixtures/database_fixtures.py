@@ -14,9 +14,9 @@ def mock_engine():
 
 
 @pytest.fixture(scope='session', autouse=True)
-def db_engine(request):
+def db_engine():
     """yields a SQLAlchemy engine which is suppressed after the test session"""
-    db_url = request.config.getoption("--dburl")
+    db_url = 'sqlite:///:memory:'
     engine_ = create_engine(db_url, echo=True)
 
     yield engine_
