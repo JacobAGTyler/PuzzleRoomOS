@@ -1,17 +1,74 @@
-{% extends "layout/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ title }}</title>
 
-{% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
-                <script>
-                    mermaid.initialize({ startOnLoad: true });
-                </script>
-                <div class="mermaid">
-                    {{ graph|safe }}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='scss/base.css') }}">
+    <script src="{{ url_for('static', filename='mermaid.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='jquery-3.6.0.min.js') }}"></script>
+</head>
+
+<body>
+
+<div class="container-fluid px-4">
+    <div id="content">
+        <div class="container px-5">
+            <div class="row gx-5">
+                <h1>Puzzle Room!</h1>
+            </div>
+            <div id="success-alert" class="alert alert-success" role="alert" style="display: none;"></div>
+            <div class="row gx-5">
+                <div class="col">
+                    <div class="card bg-success-subtle">
+                        <div class="card-header">
+                            <h3>Attempt a Solution</h3>
+                        </div>
+                        <div class="card-body text-center text-lg-center">
+                            <br/>
+                            <form id="attempt-form">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="attempt_text">TRY A CODE:</label>
+                                    <input class="form-control"
+                                           id="attempt_text" type="text"
+                                           name="attempt_text" placeholder="type or scan in text...">
+                                    <button class="btn btn-secondary" type="submit">Submit</button>
+                                </div>
+                            </form>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card bg-primary-subtle">
+                                <div class="card-header">
+                                    <h3>Time Remaining</h3>
+                                </div>
+                                <div class="card-body text-center text-lg-center">
+                                    <p class="lead" id="timer"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card bg-primary-subtle">
+                                <div class="card-header">
+                                    <h3>Progress</h3>
+                                </div>
+                                <div class="card-body text-center text-lg-center">
+                                    <p class="lead" id="progress"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-{% endblock %}
+</div>
+<script src="{{ url_for( 'static', filename='play.js') }}"></script>
+</body>
+</html>

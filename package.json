@@ -1,0 +1,10 @@
+{
+  "name": "puzzle-room-os-ui",
+  "packageManager": "yarn@4.1.1",
+  "dependencies": {
+    "typescript-cookie": "^1.0.6"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.29"
+  }
+}

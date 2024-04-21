@@ -146,3 +146,13 @@ congig/listener/*.yaml
 
 listener/device-setup/config/device-config.yml
 listener/device-setup/inventory/inventory.yml
+
+
+.yarnrc.yml
+.yarn
+.yarn/*
+
+node_modules
+node_modules/*
+
+.pnp.cjs

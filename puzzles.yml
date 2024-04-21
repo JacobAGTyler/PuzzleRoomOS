@@ -1,0 +1,327 @@
+basket:
+  codewords:
+    A: FLIMSY
+    B: ASPIRE
+    C: SUNDAY
+    D: LORDED
+    E: DEIDRE
+    F: WRONGS
+bauble:
+  codewords:
+    A: MOUTON
+    B: LESION
+    C: BRACED
+    D: MIDWAY
+    E: NOVENA
+    F: ROOKIE
+beanTin:
+  codewords:
+    A: GRADER
+    B: OMAHAS
+    C: BARDIC
+    D: CARLOS
+    E: GOODLY
+    F: MULCTS
+blackPillPot:
+  codewords:
+    A: BEDAUB
+    B: BLURBS
+    C: MOUSER
+    D: ACUMEN
+    E: WITHER
+    F: TOLEDO
+blueSnake:
+  codewords:
+    ALL: POND
+canvas:
+  codewords:
+    A: KOPECK
+    B: NETTER
+    C: EERILY
+    D: DISOWN
+    E: ATHENE
+    F: CHAVEZ
+chair1:
+  codewords:
+    A: CLOACA
+    B: BORROW
+    C: TENTHS
+    D: COWBOY
+    E: CROFTS
+    F: CUTEST
+chair2:
+  codewords:
+    A: COSHES
+    B: SUMMAT
+    C: AUDREY
+    D: HELOTS
+    E: MERLIN
+    F: ARTURO
+chair3:
+  codewords:
+    A: PAYING
+    B: BROILS
+    C: EXPECT
+    D: CRANED
+    E: WAFERS
+    F: REECHO
+codeBook:
+  codewords:
+    A: MEMOIR
+    B: FLAILS
+    C: DHARMA
+    D: SLEEKS
+    E: EQUITY
+    F: SOFTEN
+codex:
+  codewords:
+    A: SEURAT
+    B: WALLED
+    C: INSULT
+    D: EXPELS
+    E: JOSHED
+    F: SIRENS
+coffeePot:
+  codewords:
+    A: MATRES
+    B: BEATTY
+    C: SCALED
+    D: LAPTOP
+    E: POTASH
+    F: LATHES
+fantaCan:
+  codewords:
+    A: SCUFFS
+    B: LOVING
+    C: INLAND
+    D: ROMPER
+    E: ACQUIT
+    F: LATHED
+greenMaze:
+  codewords:
+    A: WOUNDS
+    B: OBOIST
+    C: HARASS
+    D: DARKEN
+    E: LHASAS
+    F: TUVALU
+greenSnake:
+  codewords:
+    ALL: BODY
+gunNumbers:
+  codewords:
+    ALL: KNUTHS
+gunmetalPillPot:
+  codewords:
+    A: DEWLAP
+    B: DELEON
+    C: IMPALA
+    D: NOSIER
+    E: SUNSET
+    F: BASINS
+hairbrush:
+  codewords:
+    A: QUIRTS
+    B: YEOMEN
+    C: ASSAYS
+    D: UNFURL
+    E: LOGGED
+    F: GUIZOT
+japanesePuzzleBox:
+  codewords:
+    A: RUSTED
+    B: DONNED
+    C: TRUDGE
+    D: CROWNS
+    E: SCRUMS
+    F: SAFARI
+keyBook:
+  codewords:
+    A: THIEVE
+    B: SHOUTS
+    C: BOGART
+    D: PRISON
+    E: SNOTTY
+    F: CATERS
+lencentKeySafe:
+  codewords:
+    A: WAZOOS
+    B: JEWELS
+    C: LOFTED
+    D: BRINGS
+    E: DUNANT
+    F: TRAILS
+lighter:
+  codewords:
+    A: NEARER
+    B: MURPHY
+    C: ESPRIT
+    D: SUBDUE
+    E: SOREST
+    F: KILLER
+lilacPillPot:
+  codewords:
+    A: FOSTER
+    B: INCHES
+    C: OSAGES
+    D: PICNIC
+    E: BONBON
+    F: SHARPE
+lockBox:
+  codewords:
+    A: BRUNET
+    B: POOPED
+    C: SAVERS
+    D: IAMBIC
+    E: TUNEUP
+    F: RUMBAS
+magazineRack:
+  codewords:
+    A: CRETAN
+    B: STODGE
+    C: CECILY
+    D: FLINTS
+    E: VERILY
+    F: BEKESY
+medicineBox:
+  codewords:
+    A: CLOACA
+    B: DAGOES
+    C: PAYDAY
+    D: WARDER
+    E: YEAGER
+    F: REBUKE
+octopus:
+  codewords:
+    A: REPAVE
+    B: TARMAC
+    C: SCENIC
+    D: PROFIT
+    E: UNISEX
+    F: CHEQUE
+ornateBox:
+  codewords:
+    A: BUREAU
+    B: LADDIE
+    C: COSIGN
+    D: DIRELY
+    E: PEQUOT
+    F: CAGING
+peterRabbitBlocks:
+  codewords:
+    ALL: PETER
+redPillPot:
+  codewords:
+    A: ROTATE
+    B: BRUTUS
+    C: GORGED
+    D: BRIDLE
+    E: MARGIE
+    F: BUNSEN
+reindeer:
+  codewords:
+    ALL: SVEN
+riddlesCat:
+  codewords:
+    ALL: OUTSIDE
+riddlesHorse:
+  codewords:
+    ALL: FRIDAY
+riddlesMatches:
+  codewords:
+    ALL: MATCH
+riddlesSecret:
+  codewords:
+    ALL: SECRET
+riddlesShorter:
+  codewords:
+    ALL: SHORT
+roomOfBones:
+  codewords:
+    ALL: VOICE
+scales:
+  codewords:
+    ALL: RADAR
+slideBox:
+  codewords:
+    A: JABBER
+    B: NAUSEA
+    C: CRUNCH
+    D: BRONTE
+    E: BUNSEN
+    F: VALISE
+snowman:
+  codewords:
+    ALL: OLAF
+tableBottom:
+  codewords:
+    A: SLOGAN
+    B: MELONS
+    C: WIDTHS
+    D: HEISTS
+    E: ADMIRE
+    F: MIMING
+tableTop:
+  codewords:
+    A: DIVERT
+    B: PICNIC
+    C: MAPPER
+    D: GIBSON
+    E: CORGIS
+    F: VAMPED
+tallPillPot:
+  codewords:
+    A: STOLID
+    B: LITMUS
+    C: LOSSES
+    D: MEREST
+    E: STOATS
+    F: ENRICO
+twilightBook:
+  codewords:
+    A: TERROR
+    B: CROSBY
+    C: MUGGER
+    D: ONWARD
+    E: TOWNEE
+    F: INTERN
+umbrellaDonnay:
+  codewords:
+    A: NOTION
+    B: SEINES
+    C: DEADEN
+    D: AVOIDS
+    E: HEIGHT
+    F: LARGOS
+umbrellaMaroon:
+  codewords:
+    A: COULIS
+    B: LOVELY
+    C: BARRIE
+    D: PEPPER
+    E: KAPPAS
+    F: PEDALS
+umbrellaTape:
+  codewords:
+    A: TRUMPS
+    B: CAUSAL
+    C: HYSSOP
+    D: HOORAY
+    E: RUMMER
+    F: COFFIN
+wallPlate:
+  codewords:
+    A: SCHWAS
+    B: RICHLY
+    C: PSEUDO
+    D: SILKEN
+    E: YORKIE
+    F: FOYERS
+welanKey:
+  codewords:
+    A: REDDEN
+    B: PIDDLY
+    C: CARTON
+    D: CLAUDE
+    E: TAPPER
+    F: DENUDE

@@ -2,11 +2,9 @@ import pytest
 from sqlalchemy.orm import Session
 from sqlalchemy.engine import Engine
 
-from tests.fixtures import mock_engine, built_game_config
-from game.game_config import GameConfig
+from game.game import Game
 
 from data.database import save_entity, get_engine, get_connection
-from data.models import PuzzleConfigModel, PuzzleModel, GameConfigModel, GameModel, EventModel
 
 
 class TestDatabase:
@@ -29,9 +27,9 @@ class TestDatabase:
         assert result.bind == engine
 
     @pytest.mark.usefixtures('mock_engine')
-    def test_save_entity(self, mock_engine, built_game_config: GameConfig):
+    def test_save_entity(self, mock_engine, built_game: Game):
         session = Session(mock_engine)
-        save_entity(built_game_config, session)
+        save_entity(built_game, session)
 
         assert True
 

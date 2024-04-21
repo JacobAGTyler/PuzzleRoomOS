@@ -5,6 +5,18 @@ networks:
     driver: bridge
 
 services:
+  database:
+    image: postgres:14-alpine3.16
+    container_name: puzzle-db
+    ports:
+      - published: 5452
+        target: 5432
+    environment:
+      POSTGRES_USER: jacob
+      POSTGRES_PASSWORD: jacob
+      POSTGRES_DB: puzzle_room_os
+    volumes:
+      - database-data:/var/lib/postgresql/data
   listener:
     hostname: puzzle-listener
     container_name: puzzle-listener
@@ -17,7 +29,7 @@ services:
       - broker
       - server
     ports:
-      - 5002:8000
+      - "5002:8000"
   webserver:
     hostname: puzzle-webserver
     container_name: puzzle-webserver
@@ -25,11 +37,15 @@ services:
       context: .
       dockerfile: dockerfile
       target: webserver
+    depends_on:
+      - redis
+      - broker
+      - database
     ports:
-      - 5001:80
+      - "5001:80"
     environment:
       ServerName: "puzzle-webserver"
-      DATABASE_URL: "sqlite:////var/www/html/database.db"
+      DATABASE_URL: "postgresql+psycopg2://jacob:jacob@puzzle-db:5432/puzzle_room_os"
   server:
     hostname: puzzle-server
     container_name: puzzle-server
@@ -40,10 +56,11 @@ services:
     depends_on:
       - redis
       - broker
+      - database
     ports:
-      - 5003:80
+      - "5003:80"
     environment:
-      DATABASE_URL: "sqlite:////var/www/html/database.db"
+      DATABASE_URL: "postgresql+psycopg2://jacob:jacob@puzzle-db:5432/puzzle_room_os"
   verify:
     build:
       context: .
@@ -62,7 +79,7 @@ services:
     hostname: redis
     container_name: redis
     ports:
-      - 6379:6379
+      - "6379:6379"
     volumes:
       - redis-data:/data
   zookeeper:
@@ -98,3 +115,4 @@ services:
 
 volumes:
   redis-data:
+  database-data:

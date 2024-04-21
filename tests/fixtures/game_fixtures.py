@@ -62,10 +62,10 @@ def p_list() -> list[Puzzle]:
 
 @pytest.fixture
 def mock_game_config(monkeypatch):
-    monkeypatch.setattr(
-        'sqlalchemy.orm.attributes.InstrumentedAttribute.__set__',
-        Mock(spec=InstrumentedAttribute.__set__)
-    )
+    # monkeypatch.setattr(
+    #     'sqlalchemy.orm.attributes.InstrumentedAttribute.__set__',
+    #     Mock(spec=InstrumentedAttribute.__set__)
+    # )
     return m_game_config
 
 
@@ -90,13 +90,13 @@ def mock_game(monkeypatch):
 
 
 @pytest.fixture
-def built_game(monkeypatch) -> Game:
+def built_game(monkeypatch, mock_game_config) -> Game:
     monkeypatch.setattr(
         'sqlalchemy.orm.attributes.InstrumentedAttribute.__set__',
         Mock(spec=InstrumentedAttribute.__set__)
     )
     monkeypatch.setattr('sqlalchemy.orm.collections.__set', Mock(spec=__set))
-    gm = Game("game_reference", m_game_config)
+    gm = Game("game_reference", mock_game_config)
 
     for p in p_list():
         gm.add_puzzle(p)

@@ -6,6 +6,8 @@ from server.game_resource import GameResource
 from server.games_resource import GamesResource
 from server.attempt_resource import AttemptResource
 from server.diagnostic_resource import DiagnosticResource
+from server.setup_resource import SetupResource
+from server.group_resource import GroupResource
 
 
 def create_app():
@@ -13,8 +15,10 @@ def create_app():
     api = Api(new_app)
     api.add_resource(GameResource, '/api/game/<string:game_id>')
     api.add_resource(AttemptResource, '/api/attempt')
+    api.add_resource(GroupResource, '/api/group/<string:group_letter>')
     api.add_resource(GamesResource, '/api/games')
     api.add_resource(DiagnosticResource, '/api/diagnostic')
+    api.add_resource(SetupResource, '/api/setup')
 
     @new_app.route('/')
     def index():
