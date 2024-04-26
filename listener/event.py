@@ -35,7 +35,7 @@ class Event:
         self._event_id = event_id
         self._event_time = event_time
         self._published = published
-        self._broker_string = '192.168.1.15:29092,192.168.1.15:9092,192.168.1.15:9101'
+        self._broker_string = '192.168.1.11:29092,192.168.1.11:9092,192.168.1.11:9101'
 
         if not event_type or not isinstance(event_type, EventType):
             raise ValueError("Event type cannot be empty & must be of type EventType")

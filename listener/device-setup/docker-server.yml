@@ -1,0 +1,56 @@
+---
+- name: Install Docker Dependencies
+  hosts: screen
+  become: true
+
+  vars_files:
+    - "config/device-config.yml"
+
+  tasks:
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu kinetic stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    - name: Install Docker Module for Python
+      pip:
+        name:
+          - docker
+          - docker-compose
+
+    - name: Configure the Linux kernel to allow IP forwarding
+      sysctl:
+        name: net.ipv4.conf.all.forwarding
+        value: 1
+        sysctl_set: true
+        state: present
+
+    - name: Change the policy for the iptables FORWARD policy from DROP to ACCEPT
+      iptables:
+        chain: FORWARD
+        policy: ACCEPT
+        state: present
+
+    - name: Start Docker Compose Services
+      community.docker.docker_compose:
+          project_src: "{{ vars.device_directory }}"
+          state: present
+
+  handlers:
+    - name: Restart HostAPD
+      service:
+        name: hostapd
+        state: restarted
+        enabled: true
+        masked: false

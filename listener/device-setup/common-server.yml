@@ -7,12 +7,24 @@
     - "config/device-config.yml"
 
   tasks:
-#    - name: Update and upgrade apt packages
-#      become: true
-#      apt:
-#        upgrade: yes
-#        update_cache: yes
-#        cache_valid_time: 86400 #One day
+    - name: Set Authorized Key taken from file
+      authorized_key:
+        user: "{{ vars.ansible_user }}"
+        state: present
+        key: "{{ lookup('file', '~/.ssh/lbd_ed25519.pub') }}"
+
+    - name: Add Python Repository
+      apt_repository:
+        repo: ppa:deadsnakes/ppa
+        state: present
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Update and upgrade apt packages
+      become: true
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400 #One day
 
     - name: Install common APT
       apt:
@@ -59,7 +71,7 @@
 #      debug:
 #        msg: "{{ hostvars[inventory_hostname]['ansible_distribution'] }}"
 
-    - name: Install Python 3.11 on Ubuntu
+    - name: Install Python 3.11
       apt:
         name:
           - python3.11
@@ -68,16 +80,6 @@
         state: latest
         update_cache: true
       when: ansible_distribution == "Ubuntu"
-
-    - name: Install Python 3.9 on Raspbian
-      apt:
-        name:
-          - python3.9
-          - python3-pip
-          - python3-virtualenv
-        state: latest
-        update_cache: true
-      when: ansible_distribution == "Debian"
 
 #    - name: Install RaspberryPi GPIO Library
 #      apt:
