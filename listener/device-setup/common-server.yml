@@ -98,6 +98,9 @@
         state: latest
         update_cache: true
 
+
+#    ADD sudo pigpiod USER.
+
     - name: Install Dependencies
       pip:
           chdir: "{{ vars.device_directory }}"

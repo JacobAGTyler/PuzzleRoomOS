@@ -28,6 +28,21 @@ function showAlert(alertText) {
         successAlert.fadeOut();
     }, 10000); // 10 seconds in milliseconds
 }
+function wrongAnswer(alertText) {
+    let warningAlert = $('#warning-alert');
+    let entryBox = $('#attempt_text');
+    let entryButton = $('#attempt_button');
+    alertText = 'Not a valid codeword: "' + alertText + '". Try again in 20 seconds!';
+    warningAlert.text(alertText);
+    warningAlert.fadeIn();
+    entryBox.attr('disabled', 'disabled');
+    entryButton.attr('disabled', 'disabled');
+    setTimeout(function () {
+        warningAlert.fadeOut();
+        entryBox.removeAttr('disabled');
+        entryButton.removeAttr('disabled');
+    }, 20000); // 20 seconds in milliseconds
+}
 const resetGame = 'PUZZLE_RESET_AZ89IQW3_';
 const gameCookie = 'currentGame';
 class Game {
@@ -91,6 +106,7 @@ class Game {
                 return true;
             }
         }
+        wrongAnswer(attempt_word);
         return false;
     }
 }

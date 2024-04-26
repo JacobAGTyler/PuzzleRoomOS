@@ -49,6 +49,25 @@ function showAlert(alertText: string): void {
     }, 10000); // 10 seconds in milliseconds
 }
 
+function wrongAnswer(alertText: string): void {
+    let warningAlert: JQuery<HTMLElement> = $('#warning-alert');
+    let entryBox: JQuery<HTMLFormElement> = $('#attempt_text');
+    let entryButton: JQuery<HTMLFormElement> = $('#attempt_button');
+
+    alertText = 'Not a valid codeword: "' + alertText + '". Try again in 20 seconds!';
+    warningAlert.text(alertText);
+    warningAlert.fadeIn();
+
+    entryBox.attr('disabled', 'disabled');
+    entryButton.attr('disabled', 'disabled');
+
+    setTimeout(function () {
+        warningAlert.fadeOut();
+        entryBox.removeAttr('disabled');
+        entryButton.removeAttr('disabled');
+    }, 20000); // 20 seconds in milliseconds
+}
+
 const resetGame: string = 'PUZZLE_RESET_AZ89IQW3_'
 const gameCookie: string = 'currentGame'
 
@@ -122,6 +141,7 @@ class Game {
                 return true
             }
         }
+        wrongAnswer(attempt_word);
         return false
     }
 }

@@ -24,15 +24,15 @@ interfaces:
     relay: 5
     pin_number: 21
     relay_on_activate: false
-  - name: LeftCupboard
+  - name: RightCupboard
     relay: 6
     pin_number: 13
     relay_on_activate: false
-  - name: PipeLock
+  - name: Unused
     relay: 7
     pin_number: 16
     relay_on_activate: false
-  - name: RightCupboard
+  - name: LeftCupboard
     relay: 8
     pin_number: 26
     relay_on_activate: false

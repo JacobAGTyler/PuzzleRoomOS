@@ -1,0 +1,15 @@
+- device: Key
+  ip: 192.168.1.16
+  mac: DC-A6-32-77-7E-B0
+- device: Main
+  ip: 192.168.1.15
+  mac: E4-5F-01-E3-A1-CD
+- device: Cupboard
+  ip: 192.168.1.17
+  mac: B8-27-EB-23-2E-A1
+- device: Screen
+  ip: 192.168.1.18
+  mac: D8-3A-DD-00-3C-B2
+- device: Jacobs-MBP
+  ip: 192.168.1.11
+  mac: F4:D4:88:6C:1C:CB
