@@ -1,0 +1,16 @@
+---
+- name: Setup Pi Devices for Game
+  hosts: all
+  become: false
+  gather_facts: true
+
+  tasks:
+    - name: Test Connection
+      ping:
+
+    - name: Activate Python Virtual Env
+
+    - name: Startup Listener
+      command:
+        cmd: "python3 -m listener.py"
+        dir: "~/puzzle_os/listener"

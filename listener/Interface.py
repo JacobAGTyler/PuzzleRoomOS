@@ -7,7 +7,7 @@ def make_pin(pin_number: int, activate_high: bool) -> g.OutputDevice:
     gpio_string = f'GPIO{pin_number}'
     pin = g.OutputDevice(
         gpio_string,
-        active_high=activate_high,
+        active_high=False,
         initial_value=False
     )
     return pin

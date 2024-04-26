@@ -50,7 +50,7 @@ class Device:
                         interface.activate()
 
     def listen(self):
-        print(f'Connecting to {self._broker_string}...')
+        print(f'Connecting to `{self._broker_string}`...')
 
         consumer = KafkaConsumer(
             self._topic,
